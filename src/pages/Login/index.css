@@ -1,0 +1,8 @@
+.bg {
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(135deg,
+            #9FA5D5 0%,
+            #E8F5C8 100%) !important;
+    height: 100vh;
+}
