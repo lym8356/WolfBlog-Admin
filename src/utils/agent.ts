@@ -12,7 +12,7 @@ export const injectStore = (_store: any) => {
 // simulate production environment
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
-        setTimeout(resolve,delay);
+        setTimeout(resolve, delay);
     })
 }
 
@@ -23,7 +23,6 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 // append token if current user is logged in
 axios.interceptors.request.use(config => {
     const token = store.getState().account.user?.token;
-    // const token = JSON.parse(localStorage.getItem('jwtToken')!);
     if (token) config.headers!.Authorization = `Bearer ${token}`;
     return config;
 })
@@ -56,10 +55,15 @@ const Tags = {
 
 }
 
+const Utils = {
+    getIP: () => axios.get('https://geolocation-db.com/json/')
+}
+
 const agent = {
     Account,
     Categories,
-    Tags
+    Tags,
+    Utils
 }
 
 export default agent;

@@ -1,4 +1,4 @@
-import { Alert, Avatar, Box, Container, Grid, TextField, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Container, Grid, Typography } from "@mui/material";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -121,7 +121,8 @@ function Login() {
                                         mt: 3,
                                         mb: 2,
                                         ':hover': {
-                                            bgcolor: 'secondary.main'
+                                            bgcolor: 'secondary.main',
+                                            color: 'black'
                                         }
                                     }}
                                 >
@@ -135,7 +136,8 @@ function Login() {
                                     fullWidth
                                     sx={{
                                         ':hover': {
-                                            bgcolor: 'secondary.main'
+                                            bgcolor: 'secondary.main',
+                                            color: 'black'
                                         }
                                     }}
                                 >

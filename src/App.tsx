@@ -1,26 +1,32 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { Backdrop, Box, CircularProgress, createTheme, CssBaseline, ThemeProvider, Typography } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import Login from "./pages/Login";
-import Admin from "./pages/Admin";
 import PrivateRoute from "./utils/PrivateRoute";
 import { useCallback, useEffect, useState } from "react";
-import { useAppDispatch } from "./redux/hooks";
+import { useAppDispatch, useSelector } from "./redux/hooks";
 import { fetchCurrentUser } from "./redux/slices/accountSlice";
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingComponent from "./pages/Layout/LoadingComponent";
+import Articles from "./pages/Admin/Articles";
+import { Home } from "./pages/Admin/Home";
+import './App.css';
 
 function App() {
 
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
+  const { user } = useSelector(state => state.account);
 
   const theme = createTheme({
     palette: {
       primary: {
-        main: "#282828"
+        main: "#282828",
+        light: "#A8A8A8",
       },
       secondary: {
-        main: "#A5873E"
+        main: "#FFD700",
+        light: "#F1E5AC"
       }
     }
   });
@@ -37,16 +43,7 @@ function App() {
     initApp().then(() => setLoading(false));
   }, [initApp])
 
-  if (loading) return (
-    <Backdrop open={true} invisible={true}>
-      <Box display='flex' justifyContent='center' alignItems='center' height='100vh'>
-        <CircularProgress size={100} color='secondary' />
-        <Typography variant='h4' sx={{ justifyContent: 'center', position: 'fixed', top: '60%' }}>
-          Loading...
-        </Typography>
-      </Box>
-    </Backdrop>
-  )
+  if (loading) return <LoadingComponent />
 
   return (
     <ThemeProvider theme={theme}>
@@ -54,10 +51,11 @@ function App() {
       <CssBaseline />
       <Routes>
         <Route path="/" element={<PrivateRoute />}>
-          <Route path="/" element={<Admin />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/admin" element={<Home />} />
+          <Route path="/admin/articles" element={<Articles />} />
         </Route>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login /> } />
       </Routes>
     </ThemeProvider>
   )
