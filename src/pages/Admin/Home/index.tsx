@@ -10,6 +10,10 @@ import { TagBox } from "../../../components/TagBox"
 
 export const Home: React.FC = () => {
     const { user } = useSelector(state => state.account);
+    const { categories } = useSelector(state => state.category);
+    const { tags } = useSelector(state => state.tag);
+    const { articles } = useSelector(state => state.article);
+
     return (
         <MainLayout>
             <Grid container item
@@ -37,7 +41,7 @@ export const Home: React.FC = () => {
                 columns={15}
             >
                 <Grid item xs={3}>
-                    <CustomCard title='Articles' count={4} />
+                    <CustomCard title='Articles' count={articles ? articles.length : 0} />
                 </Grid>
                 <Grid item xs={3}>
                     <CustomCard title='Drafts' count={5} />
@@ -65,10 +69,10 @@ export const Home: React.FC = () => {
                     <Chart />
                 </Grid>
                 <Grid item xs={4}>
-                    <CategoryBox />
+                    <CategoryBox categories={categories} />
                 </Grid>
                 <Grid item xs={4}>
-                    <TagBox />
+                    <TagBox tags={tags} />
                 </Grid>
             </Grid>
 

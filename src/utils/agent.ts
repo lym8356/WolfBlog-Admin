@@ -1,6 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { Category } from "../models/category";
-import { User } from "../models/user";
+import { toast } from "react-toastify";
+import { Article } from "../models/Article";
+import { Category, CategoryFormValues } from "../models/category";
+import { Tag, TagFormValues } from "../models/tag";
+import { User, UserFormValues } from "../models/user";
 
 // directly import store here will create circular import dependency errors
 // use dependency injection
@@ -16,6 +19,10 @@ const sleep = (delay: number) => {
     })
 }
 
+function createFormData(item: any) {
+    let formData = new FormData();
+}
+
 axios.defaults.baseURL = "http://localhost:21777/api";
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
@@ -28,10 +35,37 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(async response => {
-    await sleep(1000);
+    await sleep(500);
+    console.log('fetching from server...')
     return response;
 }, (error: AxiosError) => {
-
+    // handle errors here
+    const { data, status }: { data: any, status: number } = error.response!;
+    switch (status) {
+        case 400:
+            if (typeof data === 'string') toast.error(data);
+            if (data.errors) {
+                const modalStateErrors = [];
+                for (const key in data.errors) {
+                    if (data.errors[key]) {
+                        modalStateErrors.push(data.errors[key]);
+                    }
+                }
+                throw modalStateErrors.flat();
+            } else {
+                toast.error(data);
+            }
+            break;
+        case 401:
+            toast.error('unauthorised');
+            break;
+        case 403:
+            toast.error('Guest account is not allowed to make changes');
+            break;
+        default:
+            break;
+    }
+    return Promise.reject(error.response);
 })
 
 // axios requeset helper
@@ -43,27 +77,37 @@ const requests = {
 }
 
 const Account = {
-    login: (user: any) => requests.post<User>('/account/login', user),
+    login: (user: UserFormValues) => requests.post<User>('/account/login', user),
     currentUser: () => requests.get<User>('/account/currentUser')
 }
 
 const Categories = {
-    list: () => requests.get<Category[]>('/category')
+    list: () => requests.get<Category[]>('/category'),
+    create: (category: CategoryFormValues) => requests.post<Category>('/category', category),
+    update: (category: CategoryFormValues) => requests.put<void>(`/category/${category.id}`, category),
+    delete: (id: number) => requests.del<void>(`/category/${id}`)
 }
 
 const Tags = {
-
+    list: () => requests.get<Tag[]>('/tag'),
+    create: (tag: TagFormValues) => requests.post<Tag>('/tag', tag),
+    update: (tag: TagFormValues) => requests.put<void>(`/tag/${tag.id}`, tag),
+    delete: (id: number) => requests.del<void>(`/tag/${id}`)
 }
 
-const Utils = {
-    getIP: () => axios.get('https://geolocation-db.com/json/')
+const Articles = {
+    list: () => requests.get<Article[]>('/article'),
+    // create: (tag: TagFormValues) => requests.post<Tag>('/tag', tag),
+    // update: (tag: TagFormValues) => requests.put<void>(`/tag/${tag.id}`, tag),
+    delete: (id: string) => requests.del<void>(`/Article/${id}`)
 }
+
 
 const agent = {
     Account,
     Categories,
     Tags,
-    Utils
+    Articles
 }
 
 export default agent;

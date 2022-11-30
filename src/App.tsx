@@ -11,6 +11,9 @@ import LoadingComponent from "./pages/Layout/LoadingComponent";
 import Articles from "./pages/Admin/Articles";
 import { Home } from "./pages/Admin/Home";
 import './App.css';
+import { fetchCategoriesAsync } from "./redux/slices/categorySlice";
+import { fetchTagsAsync } from "./redux/slices/tagSlice";
+import { fetchArticclesAsync } from "./redux/slices/articleSlice";
 
 function App() {
 
@@ -34,6 +37,9 @@ function App() {
   const initApp = useCallback(async () => {
     try {
       await dispatch(fetchCurrentUser());
+      await dispatch(fetchCategoriesAsync());
+      await dispatch(fetchTagsAsync());
+      await dispatch(fetchArticclesAsync());
     } catch (error) {
       console.log(error);
     }
@@ -47,7 +53,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <ToastContainer position="bottom-right" hideProgressBar />
+      <ToastContainer position="bottom-right" hideProgressBar autoClose={4000} />
       <CssBaseline />
       <Routes>
         <Route path="/" element={<PrivateRoute />}>

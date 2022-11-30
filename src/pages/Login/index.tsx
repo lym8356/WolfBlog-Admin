@@ -3,7 +3,7 @@ import { ErrorMessage, Form, Formik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserFormValues } from "../../models/user";
-import { useAppDispatch, useSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { guestPassword, guestUsername } from "../../utils/constant";
 import { LoadingButton } from '@mui/lab';
 import { login } from "../../redux/slices/accountSlice";
@@ -45,7 +45,7 @@ function Login() {
         await dispatch(login({
             username: values.username,
             password: values.password
-        }));
+        } ));
         navigate("/admin");
     }
 
