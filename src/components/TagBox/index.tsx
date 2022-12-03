@@ -132,7 +132,7 @@ export const TagBox: React.FC<Props> = ({ tags }) => {
                                 backgroundColor: 'primary.main',
                                 color: 'secondary.main',
                                 ':hover': {
-                                    backgroundColor: 'secondary.light',
+                                    backgroundColor: 'secondary.main',
                                     color: 'primary.main'
                                 }
                             }}

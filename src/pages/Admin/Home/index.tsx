@@ -13,6 +13,7 @@ export const Home: React.FC = () => {
     const { categories } = useSelector(state => state.category);
     const { tags } = useSelector(state => state.tag);
     const { articles } = useSelector(state => state.article);
+    const drafts = articles?.filter(article => article.isDraft === true);
 
     return (
         <MainLayout>
@@ -21,7 +22,7 @@ export const Home: React.FC = () => {
                 marginTop={1}
                 marginRight={1}
                 sx={{
-                    marginLeft: '250px'
+                    marginLeft: '13vw'
                 }}
             >
                 <Grid item xs={6}>
@@ -36,7 +37,7 @@ export const Home: React.FC = () => {
                 marginTop={1}
                 marginRight={1}
                 sx={{
-                    marginLeft: '250px'
+                    marginLeft: '13vw'
                 }}
                 columns={15}
             >
@@ -44,7 +45,7 @@ export const Home: React.FC = () => {
                     <CustomCard title='Articles' count={articles ? articles.length : 0} />
                 </Grid>
                 <Grid item xs={3}>
-                    <CustomCard title='Drafts' count={5} />
+                    <CustomCard title='Drafts' count={drafts ? drafts.length : 0} />
                 </Grid>
                 <Grid item xs={3}>
                     <CustomCard title='Comments' count={15} />
@@ -61,7 +62,7 @@ export const Home: React.FC = () => {
                 marginTop={1}
                 marginRight={1}
                 sx={{
-                    marginLeft: '250px'
+                    marginLeft: '13vw'
                 }}
                 columns={16}
             >
@@ -75,7 +76,6 @@ export const Home: React.FC = () => {
                     <TagBox tags={tags} />
                 </Grid>
             </Grid>
-
         </MainLayout>
     )
 }

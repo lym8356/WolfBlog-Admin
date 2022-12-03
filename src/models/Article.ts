@@ -6,7 +6,7 @@ export interface Article {
     title: string;
     content: string;
     category: Category;
-    tags: Tag[];
-    craetedAt: Date | null;
+    articleTags: Tag[];
+    createdAt: Date | null;
     isDraft: boolean;
 }
