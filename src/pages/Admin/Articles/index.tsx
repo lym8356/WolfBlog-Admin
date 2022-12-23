@@ -1,29 +1,44 @@
 import { Box, Button, Checkbox, Chip, FormControl, Grid, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, TextField, TextFieldProps, Typography } from "@mui/material";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import moment from "moment";
-import { useSelector } from "../../../redux/hooks";
+import { useAppDispatch, useSelector } from "../../../redux/hooks";
 import { MainLayout } from "../../Layout/MainLayout";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Tag } from "../../../models/tag";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RestartAlt } from "@mui/icons-material";
 import { Article } from "../../../models/Article";
+import { useNavigate } from "react-router-dom";
+import { articleSelectors, removeArticle } from "../../../redux/slices/articleSlice";
+import { CustomDeleteDialog } from "../../../components/CustomDeleteDialog";
+import agent from "../../../utils/agent";
+import { toast } from "react-toastify";
+import { LoadingButton } from "@mui/lab";
 
+// check if tagArray contains everything in searchTagArray
 const checkIfContained = (tagArray: Array<Tag>, searchTagArray: Array<string>) => {
+    // create a temp array to store only the tag title 
+    const tempArr: string[] = [];
+    // 2n, need a better solution
     for (let i = 0; i < tagArray.length; i++) {
-        for (let j = 0; j < tagArray.length; j++) {
-            if (tagArray[i].title.includes(searchTagArray[j])) return true;
-        }
+        tempArr.push(tagArray[i].title);
     }
-    return false;
+    for (let i = 0; i < searchTagArray.length; i++) {
+        if (!tempArr.includes(searchTagArray[i])) return false;
+    }
+    return true;
 }
 
 const Articles: React.FC = () => {
 
-    const { articles } = useSelector(state => state.article);
+    let articles = useSelector(articleSelectors.selectAll);
+    // filter drafts, use custom selector ?
+    articles = articles.filter(a => a.isDraft == false);
     const { tags } = useSelector(state => state.tag);
     const { categories } = useSelector(state => state.category);
 
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     // search/navigation related
     const [articlesToShow, setArticlesToShow] = useState<Article[] | null | undefined>(articles);
@@ -32,6 +47,14 @@ const Articles: React.FC = () => {
     const [searchTag, setSearchTag] = useState<string[]>([]);
     // setting up page size 
     const [pageSize, setPageSize] = useState(10);
+
+    // pass in props to control popup dialog
+    const [confirmDialog, setConfirmDialog] = useState({
+        isOpen: false, title: '', 
+        onConfirm: function() {}
+    });
+    const [target, setTarget] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const searchByKeyword = () => {
         setSearchCategory("");
@@ -94,7 +117,30 @@ const Articles: React.FC = () => {
         setArticlesToShow(articles);
     }
 
-    const buttonGroups = () => {
+    const onDelete = (id: string) => {
+        setLoading(true);
+        setTarget(id);
+        setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+        })
+        agent.Articles.delete(id)
+            .then(() => {
+                dispatch(removeArticle(id));
+                toast.success("Article deleted");
+            })
+            .catch((error: any) => {
+                console.log(error);
+                toast.error("Error deleting article");
+            }).finally(() => setLoading(false));
+    }
+
+    // rerender component after delete, better solution ??
+    useEffect(() => {
+        setArticlesToShow(articles);
+    }, [articles]);
+
+    const buttonGroups = (params: any) => {
         return (
             <Box
                 sx={{
@@ -113,21 +159,33 @@ const Articles: React.FC = () => {
                             backgroundColor: 'secondary.light',
                         }
                     }}
+                    onClick={() => navigate(`/admin/articles/${params.id}`)}
                 >
                     Edit
                 </Button>
-                <Button
+                <LoadingButton
                     sx={{
                         color: 'secondary.main',
                         backgroundColor: 'primary.main',
                         ':hover': {
                             color: 'primary.main',
                             backgroundColor: 'secondary.light',
+                        },
+                        '& .MuiLoadingButton-loadingIndicator': {
+                            color: 'secondary.main'
                         }
+                    }}
+                    loading={loading && target == params.id}
+                    onClick={() => {
+                        setConfirmDialog({
+                            isOpen: true,
+                            title: 'article',
+                            onConfirm: () => { onDelete(params.id) }
+                        })
                     }}
                 >
                     Delete
-                </Button>
+                </LoadingButton>
             </Box>
         )
     }
@@ -135,17 +193,22 @@ const Articles: React.FC = () => {
 
     const columns: GridColDef[] = [
         {
-            field: 'title', headerName: 'Title', flex: 1, minWidth: 300,
+            field: 'title', headerName: 'Title', flex: 0.7, minWidth: 200,
             headerAlign: 'center', align: 'center',
         },
         {
-            field: 'date', headerName: 'Published Date', flex: 1,
+            field: 'date', headerName: 'Published Date', flex: 0.7,
+            minWidth: 300, headerAlign: 'center', align: 'center',
+            valueFormatter: (params) => moment(params.value).format("DD/MM/YYYY hh:mm A")
+        },
+        {
+            field: 'updatedAt', headerName: 'Last Updated', flex: 0.7,
             minWidth: 300, headerAlign: 'center', align: 'center',
             valueFormatter: (params) => moment(params.value).format("DD/MM/YYYY hh:mm A")
         },
         {
             field: 'category', headerName: 'Category', sortable: false,
-            flex: 1, minWidth: 300, headerAlign: 'center', align: 'center',
+            flex: 0.5, minWidth: 200, headerAlign: 'center', align: 'center',
             renderCell: (params) => <Chip label={params.value} variant="outlined"
                 sx={{ color: 'primary.main', fontSize: '1rem', borderColor: 'primary.main' }}
             />
@@ -174,7 +237,9 @@ const Articles: React.FC = () => {
         {
             field: 'actions', headerName: 'Actions', sortable: false,
             flex: 0.5, minWidth: 100, headerAlign: 'center',
-            renderCell: buttonGroups
+            renderCell: (params) => (
+                buttonGroups(params)
+            )
         }
     ];
 
@@ -183,6 +248,7 @@ const Articles: React.FC = () => {
         id: article.id,
         title: article.title,
         date: article.createdAt,
+        updatedAt: article.updatedAt,
         category: article.category.title,
         tags: article.articleTags
     })) : [];
@@ -261,7 +327,7 @@ const Articles: React.FC = () => {
                             backgroundColor: 'primary.main',
                             color: 'secondary.main',
                             ':hover': {
-                                backgroundColor: 'secondary.main',
+                                backgroundColor: 'secondary.light',
                                 color: 'primary.main'
                             }
                         }}
@@ -282,6 +348,7 @@ const Articles: React.FC = () => {
                                 backgroundColor: 'secondary.light',
                             }
                         }}
+                        href="/admin/articles/createArticle"
                     >
                         NEW
                     </Button>
@@ -318,6 +385,10 @@ const Articles: React.FC = () => {
                     }}
                 />
             </Grid>
+            <CustomDeleteDialog
+                confirmDialog={confirmDialog}
+                setConfirmDialog={setConfirmDialog}
+            />
         </MainLayout>
     )
 }

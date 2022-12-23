@@ -1,6 +1,7 @@
 
 
 export interface Category {
+    type: "category";
     id: number;
     title: string;
 }

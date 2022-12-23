@@ -13,7 +13,7 @@ import { toast } from "react-toastify"
 import { Category, CategoryFormValues } from "../../models/category"
 import { useAppDispatch, useSelector } from "../../redux/hooks"
 import { createCategoryAsync } from "../../redux/slices/categorySlice"
-import { CustomDialog } from "../../utils/CustomDialog"
+import { CustomDialog } from "../CustomDialog"
 
 interface Props {
     categories: Category[] | null;

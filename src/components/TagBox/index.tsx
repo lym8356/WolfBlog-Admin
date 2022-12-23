@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { Tag, TagFormValues } from "../../models/tag"
 import { useAppDispatch, useSelector } from "../../redux/hooks";
 import { createTagAsync } from "../../redux/slices/tagSlice";
-import { CustomDialog } from "../../utils/CustomDialog";
+import { CustomDialog } from "../CustomDialog";
 
 interface Props {
     tags: Tag[] | null;
@@ -21,7 +21,7 @@ export const TagBox: React.FC<Props> = ({ tags }) => {
 
     const [dialogOpen, setDialogOpen] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
-    const [tag, setTag] = useState({});
+    const [tag, setTag] = useState<Tag | undefined>();
 
     const { loading } = useSelector(state => state.tag);
     const dispatch = useAppDispatch();
@@ -58,8 +58,8 @@ export const TagBox: React.FC<Props> = ({ tags }) => {
     const handleDeleteClick = (id: number) => {
         setIsDelete(true);
         // process logic then
-        const tagToEdit = tags?.find(t => t.id == id);
-        if (tagToEdit != undefined) setTag(tagToEdit);
+        const tagToDelete = tags?.find(t => t.id == id);
+        if (tagToDelete != undefined) setTag(tagToDelete);
         setDialogOpen(true);
     }
 

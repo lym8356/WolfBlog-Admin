@@ -7,12 +7,14 @@ import { CustomCard } from "../../../components/CustomCard"
 import { CategoryBox } from "../../../components/CategoryBox"
 import { Chart } from "../../../components/Chart"
 import { TagBox } from "../../../components/TagBox"
+import { articleSelectors } from "../../../redux/slices/articleSlice"
 
 export const Home: React.FC = () => {
     const { user } = useSelector(state => state.account);
     const { categories } = useSelector(state => state.category);
     const { tags } = useSelector(state => state.tag);
-    const { articles } = useSelector(state => state.article);
+    // const { articles } = useSelector(state => state.article);
+    const articles = useSelector(articleSelectors.selectAll);
     const drafts = articles?.filter(article => article.isDraft === true);
 
     return (

@@ -1,11 +1,12 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, TextFieldProps } from "@mui/material"
 import { useRef } from "react";
 import { toast } from "react-toastify";
-import { Category, CategoryFormValues } from "../models/category";
-import { Tag, TagFormValues } from "../models/tag";
-import { useAppDispatch, useSelector } from "../redux/hooks";
-import { deleteCategoryAsync, editCategoryAsync } from "../redux/slices/categorySlice";
-import { deleteTagAsync, editTagAsync } from "../redux/slices/tagSlice";
+import { Article } from "../../models/Article";
+import { Category, CategoryFormValues } from "../../models/category";
+import { Tag, TagFormValues } from "../../models/tag";
+import { useAppDispatch, useSelector } from "../../redux/hooks";
+import { deleteCategoryAsync, editCategoryAsync } from "../../redux/slices/categorySlice";
+import { deleteTagAsync, editTagAsync } from "../../redux/slices/tagSlice";
 
 interface Props {
     isDelete: boolean;
@@ -13,15 +14,17 @@ interface Props {
     handleDialogClose: () => void;
     categoryToManipulate?: Category | any;
     tagToManipulate?: Tag | any;
+    articleToDelete?: Article | any;
+    // objectToManipulate? : Category | Tag | Article;
 }
-
 
 export const CustomDialog: React.FC<Props> = ({
     isDelete,
     isOpen,
     handleDialogClose,
     categoryToManipulate,
-    tagToManipulate
+    tagToManipulate,
+    articleToDelete
 }) => {
 
     const dispatch = useAppDispatch();
@@ -41,6 +44,11 @@ export const CustomDialog: React.FC<Props> = ({
         textfield: <TextField defaultValue={tagToManipulate?.title} inputRef={formValues} required />,
         deleteTitle: "Delete Tag",
         deleteText: "Are you sure you want to delete this tag?"
+    }
+
+    const articleText = {
+        deleteTitle: "Delete Article",
+        deleteText: "Are you sure you want to delete this article?"
     }
 
     const handleConfirmClick = async () => {
@@ -101,6 +109,15 @@ export const CustomDialog: React.FC<Props> = ({
     const handleCancelClick = () => {
         handleDialogClose();
     }
+
+    // console.log(objectToManipulate?.type);
+
+    // switch (objectToManipulate?.type) {
+    //     case "article" : console.log("article"); break;
+    //     case "category" : console.log("category"); break;
+    //     case "tag" : console.log("tag"); break;
+    //     default : console.log("can't tell");
+    // }
 
     return (
         <Dialog open={isOpen}>

@@ -13,7 +13,8 @@ import { Home } from "./pages/Admin/Home";
 import './App.css';
 import { fetchCategoriesAsync } from "./redux/slices/categorySlice";
 import { fetchTagsAsync } from "./redux/slices/tagSlice";
-import { fetchArticclesAsync } from "./redux/slices/articleSlice";
+import { fetchArticlesAsync } from "./redux/slices/articleSlice";
+import { ArticleDetails } from "./pages/Admin/Articles/Details";
 
 function App() {
 
@@ -39,7 +40,7 @@ function App() {
       await dispatch(fetchCurrentUser());
       await dispatch(fetchCategoriesAsync());
       await dispatch(fetchTagsAsync());
-      await dispatch(fetchArticclesAsync());
+      await dispatch(fetchArticlesAsync());
     } catch (error) {
       console.log(error);
     }
@@ -60,6 +61,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<Home />} />
           <Route path="/admin/articles" element={<Articles />} />
+          <Route path="/admin/articles/createArticle" element={<ArticleDetails />} />
+          <Route path="/admin/articles/:id" element={<ArticleDetails />} />
         </Route>
         <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login /> } />
       </Routes>

@@ -1,6 +1,7 @@
 
 
 export interface Tag {
+    type: "tag";
     id: number;
     title: string;
 }

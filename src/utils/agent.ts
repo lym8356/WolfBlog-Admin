@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { Article } from "../models/Article";
+import { Article, ArticleFormValues } from "../models/Article";
 import { Category, CategoryFormValues } from "../models/category";
 import { Tag, TagFormValues } from "../models/tag";
 import { User, UserFormValues } from "../models/user";
@@ -97,8 +97,9 @@ const Tags = {
 
 const Articles = {
     list: () => requests.get<Article[]>('/article'),
-    // create: (tag: TagFormValues) => requests.post<Tag>('/tag', tag),
-    // update: (tag: TagFormValues) => requests.put<void>(`/tag/${tag.id}`, tag),
+    details: (id: string) => requests.get<Article>(`/article/${id}`),
+    create: (article: ArticleFormValues) => requests.post<Article>('/article', article),
+    update: (article: ArticleFormValues) => requests.put<Article>(`/article/${article.id}`, article),
     delete: (id: string) => requests.del<void>(`/Article/${id}`)
 }
 
