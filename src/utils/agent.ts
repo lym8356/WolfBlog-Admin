@@ -1,7 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { Article, ArticleFormValues } from "../models/Article";
+import { Album, AlbumFormValues } from "../models/album";
+import { Article, ArticleFormValues } from "../models/article";
 import { Category, CategoryFormValues } from "../models/category";
+import { Image } from "../models/image";
 import { Tag, TagFormValues } from "../models/tag";
 import { User, UserFormValues } from "../models/user";
 
@@ -17,10 +19,6 @@ const sleep = (delay: number) => {
     return new Promise((resolve) => {
         setTimeout(resolve, delay);
     })
-}
-
-function createFormData(item: any) {
-    let formData = new FormData();
 }
 
 axios.defaults.baseURL = "http://localhost:21777/api";
@@ -103,12 +101,29 @@ const Articles = {
     delete: (id: string) => requests.del<void>(`/Article/${id}`)
 }
 
+const Albums = {
+    list: () => requests.get<Album[]>('/album'),
+    create: (album: AlbumFormValues) => requests.post<Album>('/album', album),
+    update: (album: AlbumFormValues) => requests.put<Album>(`/album/${album.id}`, album),
+    delete: (id: number) => requests.del(`/album/${id}`),
+    upload: (file: Blob, albumId: number) => {
+        let formData = new FormData();
+        formData.append('File', file);
+        return axios.post<Image>(`/album/${albumId}/images`, formData, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        })
+    },
+    setCover: (albumId: number, imageId: string) => requests.post<Album>(`/album/${albumId}/setCover/${imageId}`, {}),
+    deleteImage: (albumId: number, imageId: string) => requests.del<Album>(`/album/${albumId}/images/${imageId}`)
+}
+
 
 const agent = {
     Account,
     Categories,
     Tags,
-    Articles
+    Articles,
+    Albums
 }
 
 export default agent;

@@ -12,7 +12,14 @@ export const MainLayout: React.FC<Props> = ({ children }: Props) => {
         <Grid container>
             <Header />
             <Sidebar />
-            {children}
+            <Grid container item
+                marginTop={1}
+                marginRight={1}
+                marginBottom="6vh"
+                marginLeft="14vw"
+            >
+                {children}
+            </Grid>
             <Footer />
         </Grid>
     )

@@ -2,12 +2,11 @@ import { Box, Button, Checkbox, Chip, FormControl, Grid, IconButton, InputLabel,
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import moment from "moment";
 import { useAppDispatch, useSelector } from "../../../redux/hooks";
-import { MainLayout } from "../../Layout/MainLayout";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Tag } from "../../../models/tag";
 import { useEffect, useRef, useState } from "react";
 import { RestartAlt } from "@mui/icons-material";
-import { Article } from "../../../models/Article";
+import { Article } from "../../../models/article";
 import { useNavigate } from "react-router-dom";
 import { articleSelectors, removeArticle } from "../../../redux/slices/articleSlice";
 import { CustomDeleteDialog } from "../../../components/CustomDeleteDialog";
@@ -254,12 +253,9 @@ const Articles: React.FC = () => {
     })) : [];
 
     return (
-        <MainLayout>
+        <>
             <Grid container item
-                marginTop={1}
-                marginRight={1}
                 sx={{
-                    marginLeft: '13.5vw',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center'
@@ -356,10 +352,6 @@ const Articles: React.FC = () => {
             </Grid>
             <Grid container item
                 marginTop={1}
-                marginRight={1}
-                sx={{
-                    marginLeft: '13.5vw'
-                }}
             >
                 <DataGrid
                     autoHeight
@@ -389,7 +381,7 @@ const Articles: React.FC = () => {
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}
             />
-        </MainLayout>
+        </>
     )
 }
 

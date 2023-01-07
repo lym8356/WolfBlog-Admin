@@ -18,14 +18,11 @@ export const Home: React.FC = () => {
     const drafts = articles?.filter(article => article.isDraft === true);
 
     return (
-        <MainLayout>
+        <>
             <Grid container item
+                // marginTop={1}
+                marginRight={.5}
                 spacing={2}
-                marginTop={1}
-                marginRight={1}
-                sx={{
-                    marginLeft: '13vw'
-                }}
             >
                 <Grid item xs={6}>
                     <Welcome user={user} />
@@ -37,10 +34,7 @@ export const Home: React.FC = () => {
             <Grid container item
                 spacing={2}
                 marginTop={1}
-                marginRight={1}
-                sx={{
-                    marginLeft: '13vw'
-                }}
+                marginRight={.5}
                 columns={15}
             >
                 <Grid item xs={3}>
@@ -62,10 +56,7 @@ export const Home: React.FC = () => {
             <Grid container item
                 spacing={2}
                 marginTop={1}
-                marginRight={1}
-                sx={{
-                    marginLeft: '13vw'
-                }}
+                marginRight={.5}
                 columns={16}
             >
                 <Grid item xs={8}>
@@ -78,6 +69,6 @@ export const Home: React.FC = () => {
                     <TagBox tags={tags} />
                 </Grid>
             </Grid>
-        </MainLayout>
+        </>
     )
 }

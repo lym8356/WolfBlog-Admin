@@ -15,6 +15,10 @@ import { fetchCategoriesAsync } from "./redux/slices/categorySlice";
 import { fetchTagsAsync } from "./redux/slices/tagSlice";
 import { fetchArticlesAsync } from "./redux/slices/articleSlice";
 import { ArticleDetails } from "./pages/Admin/Articles/Details";
+import Albums from "./pages/Admin/Albums";
+import { fetchAlbumsAsync } from "./redux/slices/albumSlice";
+import { MainLayout } from "./pages/Layout/MainLayout";
+import AlbumDetails from "./pages/Admin/Albums/Details";
 
 function App() {
 
@@ -41,6 +45,7 @@ function App() {
       await dispatch(fetchCategoriesAsync());
       await dispatch(fetchTagsAsync());
       await dispatch(fetchArticlesAsync());
+      await dispatch(fetchAlbumsAsync());
     } catch (error) {
       console.log(error);
     }
@@ -56,6 +61,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <ToastContainer position="bottom-right" hideProgressBar autoClose={4000} />
       <CssBaseline />
+      <MainLayout>
       <Routes>
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/" element={<Home />} />
@@ -63,9 +69,12 @@ function App() {
           <Route path="/admin/articles" element={<Articles />} />
           <Route path="/admin/articles/createArticle" element={<ArticleDetails />} />
           <Route path="/admin/articles/:id" element={<ArticleDetails />} />
+          <Route path="/admin/albums" element={<Albums />} />
+          <Route path="/admin/albums/:id" element={<AlbumDetails />} />
         </Route>
         <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login /> } />
       </Routes>
+      </MainLayout>
     </ThemeProvider>
   )
 }

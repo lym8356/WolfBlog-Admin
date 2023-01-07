@@ -24,7 +24,7 @@ export const Chart: React.FC = () => {
                 ':hover': {
                     boxShadow: 10
                 },
-                height: '48vh'
+                height: '51vh'
             }}
             elevation={4}
         >

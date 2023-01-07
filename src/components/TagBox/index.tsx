@@ -73,7 +73,7 @@ export const TagBox: React.FC<Props> = ({ tags }) => {
                 ':hover': {
                     boxShadow: 10
                 },
-                height: '48vh'
+                height: '51vh'
             }}
             elevation={4}
         >

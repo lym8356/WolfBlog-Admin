@@ -7,7 +7,7 @@ const CustomTextfield = (props: Partial<TextFieldProps>) => {
         <TextField
             {...field}
             {...props}
-            error={meta.touched && !!meta.error}
+            error={!!meta.error}
             helperText={meta.error}
         />
     )

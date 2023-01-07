@@ -62,9 +62,8 @@ export const Sidebar: React.FC = () => {
     return (
         <Drawer
             sx={{
-                width: "13vw",
                 '& .MuiDrawer-paper': {
-                    width: "13vw",
+                    width: "13.5vw",
                     backgroundColor: '#404040'
                 }
             }}

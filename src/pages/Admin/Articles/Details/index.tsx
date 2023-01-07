@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useSelector } from "../../../../redux/hooks";
 import { articleSelectors, setArticle } from "../../../../redux/slices/articleSlice";
 import LoadingComponent from "../../../Layout/LoadingComponent";
-import { MainLayout } from "../../../Layout/MainLayout"
 import { Grid, InputLabel, TextField, Typography } from "@mui/material";
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -14,7 +13,7 @@ import CustomTextfield from "../../../../components/FormsUI/CustomTextfield";
 import { Form, Formik } from "formik";
 import * as Yup from 'yup';
 import moment from "moment";
-import { Article, ArticleFormValues } from "../../../../models/Article";
+import { Article, ArticleFormValues } from "../../../../models/article";
 import CustomSelectInput from "../../../../components/FormsUI/CustomSelectInput";
 import { LoadingButton } from "@mui/lab";
 import agent from "../../../../utils/agent";
@@ -108,7 +107,7 @@ export const ArticleDetails: React.FC = () => {
     if (loading) return <LoadingComponent />
 
     return (
-        <MainLayout>
+        <>
             <Formik
                 initialValues={articleFormValues}
                 enableReinitialize
@@ -117,161 +116,150 @@ export const ArticleDetails: React.FC = () => {
                     : (values) => { handleArticleSubmit(values) }}
             >
                 {({ handleSubmit, setFieldValue, isSubmitting }) => (
-                    <Form autoComplete="false">
-                        <Grid
-                            container
-                            item
+                    <Form autoComplete="false" style={{width: "100%"}} onSubmit={handleSubmit}>
+                        <Grid container item
                             sx={{
-                                marginLeft: '13.5vw',
-                                marginBottom: '6.5vh',
-                                marginTop: 1,
-                                width: '85vw'
+                                marginTop: '1vh',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
                             }}
                         >
-                            <Grid container item
+                            <Grid item xs={2}>
+                                <CustomTextfield
+                                    name="title"
+                                    label="Title"
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <TextField
+                                    label="Last Update"
+                                    defaultValue={moment(article?.updatedAt).format("DD/MM/YYYY hh:mm A")}
+                                    fullWidth
+                                    disabled
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <CustomSelectInput
+                                    name="categoryId"
+                                    label="Category"
+                                    options={categories}
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <CustomSelectInput
+                                    name="tagIds"
+                                    options={tags}
+                                    label="Tag(s)"
+                                    multiple
+                                />
+                            </Grid>
+                            <Grid item xs={2}
                                 sx={{
-                                    marginTop: '2vh',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between'
+                                    display: 'flex',
+                                    justifyContent: 'space-around'
                                 }}
                             >
-                                <Grid item xs={2}>
-                                    <CustomTextfield
-                                        name="title"
-                                        label="Title"
-                                        fullWidth
-                                    />
-                                </Grid>
-                                <Grid item xs={2}>
-                                    <TextField
-                                        label="Last Update"
-                                        defaultValue={moment(article?.updatedAt).format("DD/MM/YYYY hh:mm A")}
-                                        fullWidth
-                                        disabled
-                                    />
-                                </Grid>
-                                <Grid item xs={2}>
-                                    <CustomSelectInput
-                                        name="categoryId"
-                                        label="Category"
-                                        options={categories}
-                                    />
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <CustomSelectInput
-                                        name="tagIds"
-                                        options={tags}
-                                        label="Tag(s)"
-                                        multiple
-                                    />
-                                </Grid>
-                                <Grid item xs={2}
+                                <LoadingButton
+                                    size="large"
+                                    variant="contained"
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    onClick={() => setIsSave(false)}
                                     sx={{
-                                        display: 'flex',
-                                        justifyContent: 'space-around'
-                                    }}
-                                >
-                                    <LoadingButton
-                                        size="large"
-                                        variant="contained"
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        onClick={() => setIsSave(false)}
-                                        sx={{
-                                            backgroundColor: 'primary.main',
-                                            color: 'secondary.main',
-                                            ':hover': {
-                                                backgroundColor: 'secondary.light',
-                                                color: 'primary.main'
-                                            }
-                                        }}
-
-                                    >
-                                        {article && article.isDraft ? "Publish" :
-                                            article && !article.isDraft ? "Update" :
-                                                "Publish"
-                                        }
-                                    </LoadingButton>
-                                    <LoadingButton
-                                        size="large"
-                                        variant="contained"
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        onClick={() => setIsSave(true)}
-                                        sx={{
-                                            backgroundColor: 'primary.main',
-                                            color: 'secondary.main',
-                                            ':hover': {
-                                                backgroundColor: 'secondary.light',
-                                                color: 'primary.main'
-                                            }
-                                        }}
-                                    >
-                                        Save
-                                    </LoadingButton>
-                                </Grid>
-                            </Grid>
-                            <Grid container item marginTop={3}>
-                                <Grid item xs={6}
-                                    sx={{
-                                        height: '75vh',
-                                        overflow: 'auto'
-                                    }}
-                                >
-                                    <InputLabel><Typography variant="h5">Content</Typography></InputLabel>
-                                    <CustomTextfield
-                                        fullWidth
-                                        name="content"
-                                        multiline
-                                        variant="outlined"
-                                        onChange={(e) => {
-                                            setFieldValue("content", e.target.value);
-                                            setContent(e.target.value);
-                                        }}
-                                        sx={{
-                                            width: '100%',
+                                        backgroundColor: 'primary.main',
+                                        color: 'secondary.main',
+                                        ':hover': {
                                             backgroundColor: 'secondary.light',
-                                            '& fieldset': { border: 'none' }
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={6}
+                                            color: 'primary.main'
+                                        }
+                                    }}
+
+                                >
+                                    {article && article.isDraft ? "Publish" :
+                                        article && !article.isDraft ? "Update" :
+                                            "Publish"
+                                    }
+                                </LoadingButton>
+                                <LoadingButton
+                                    size="large"
+                                    variant="contained"
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    onClick={() => setIsSave(true)}
                                     sx={{
-                                        height: '75vh',
-                                        overflow: 'auto',
-                                        width: '100%'
+                                        backgroundColor: 'primary.main',
+                                        color: 'secondary.main',
+                                        ':hover': {
+                                            backgroundColor: 'secondary.light',
+                                            color: 'primary.main'
+                                        }
                                     }}
                                 >
-                                    <InputLabel><Typography variant="h5">Preview</Typography></InputLabel>
-                                    <ReactMarkdown
-                                        remarkPlugins={[remarkGfm]}
-                                        rehypePlugins={[rehypeRaw]}
-                                        children={content}
-                                        components={{
-                                            code({ node, inline, className, children, ...props }) {
-                                                const match = /language-(\w+)/.exec(className || '')
-                                                return !inline && match ? (
-                                                    <SyntaxHighlighter
-                                                        children={String(children).replace(/\n$/, '')}
-                                                        style={darcula}
-                                                        language={match[1]}
-                                                        PreTag="div"
-                                                        {...props}
-                                                    />
-                                                ) : (
-                                                    <code className={className} {...props}>
-                                                        {children}
-                                                    </code>
-                                                )
-                                            }
-                                        }}
-                                    />
-                                </Grid>
+                                    Save
+                                </LoadingButton>
+                            </Grid>
+                        </Grid>
+                        <Grid container item marginTop={3}>
+                            <Grid item xs={6}
+                                sx={{
+                                    height: '75vh',
+                                    overflow: 'auto'
+                                }}
+                            >
+                                <InputLabel><Typography variant="h5">Content</Typography></InputLabel>
+                                <CustomTextfield
+                                    fullWidth
+                                    name="content"
+                                    multiline
+                                    variant="outlined"
+                                    onChange={(e) => {
+                                        setFieldValue("content", e.target.value);
+                                        setContent(e.target.value);
+                                    }}
+                                    sx={{
+                                        width: '100%',
+                                        backgroundColor: 'secondary.light',
+                                        '& fieldset': { border: 'none' }
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={6}
+                                sx={{
+                                    height: '75vh',
+                                    overflow: 'auto',
+                                    width: '100%'
+                                }}
+                            >
+                                <InputLabel><Typography variant="h5">Preview</Typography></InputLabel>
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    rehypePlugins={[rehypeRaw]}
+                                    children={content}
+                                    components={{
+                                        code({ node, inline, className, children, ...props }) {
+                                            const match = /language-(\w+)/.exec(className || '')
+                                            return !inline && match ? (
+                                                <SyntaxHighlighter
+                                                    children={String(children).replace(/\n$/, '')}
+                                                    style={darcula}
+                                                    language={match[1]}
+                                                    PreTag="div"
+                                                    {...props}
+                                                />
+                                            ) : (
+                                                <code className={className} {...props}>
+                                                    {children}
+                                                </code>
+                                            )
+                                        }
+                                    }}
+                                />
                             </Grid>
                         </Grid>
                     </Form>
                 )}
             </Formik>
-        </MainLayout>
+        </>
     )
 }

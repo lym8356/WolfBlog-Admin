@@ -1,5 +1,5 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { Article } from "../../models/Article";
+import { Article } from "../../models/article";
 import agent from "../../utils/agent";
 import { RootState } from "../store";
 
@@ -8,12 +8,6 @@ interface ArticleState {
     // articles: Article[] | null;
     error: string | null;
     loading: boolean;
-}
-
-const initialState: ArticleState = {
-    // articles: null,
-    error: null,
-    loading: true
 }
 
 const articlesAdapter = createEntityAdapter<Article>();

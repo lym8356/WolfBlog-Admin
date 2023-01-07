@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, TextFieldProps } from "@mui/material"
 import { useRef } from "react";
 import { toast } from "react-toastify";
-import { Article } from "../../models/Article";
+import { Article } from "../../models/article";
 import { Category, CategoryFormValues } from "../../models/category";
 import { Tag, TagFormValues } from "../../models/tag";
 import { useAppDispatch, useSelector } from "../../redux/hooks";
@@ -23,8 +23,7 @@ export const CustomDialog: React.FC<Props> = ({
     isOpen,
     handleDialogClose,
     categoryToManipulate,
-    tagToManipulate,
-    articleToDelete
+    tagToManipulate
 }) => {
 
     const dispatch = useAppDispatch();
@@ -46,11 +45,6 @@ export const CustomDialog: React.FC<Props> = ({
         deleteText: "Are you sure you want to delete this tag?"
     }
 
-    const articleText = {
-        deleteTitle: "Delete Article",
-        deleteText: "Are you sure you want to delete this article?"
-    }
-
     const handleConfirmClick = async () => {
         if (categoryToManipulate && isDelete) {
 
@@ -66,7 +60,7 @@ export const CustomDialog: React.FC<Props> = ({
                 return;
             }
             // validate for duplicate category name
-            const sameCategory = categories?.filter(item => item.title === formValuesAsString);
+            const sameCategory = categories?.filter(item => item.title.toLowerCase() === formValuesAsString.toLowerCase());
             if (sameCategory?.length) {
                 toast.error("Category with the same name already exists");
                 return;
@@ -92,7 +86,7 @@ export const CustomDialog: React.FC<Props> = ({
                 return;
             }
             // validate for duplicate category name
-            const sameTag = tags?.filter(item => item.title === formValuesAsString);
+            const sameTag = tags?.filter(item => item.title.toLowerCase() === formValuesAsString.toLowerCase());
             if (sameTag?.length) {
                 toast.error("Tag with the same name already exists");
                 return;

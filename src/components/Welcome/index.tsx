@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import moment from "moment";
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { useSelector } from "../../redux/hooks";
 import { User } from "../../models/user";
 
 interface Props {

@@ -74,7 +74,7 @@ export const CategoryBox: React.FC<Props> = ({ categories }) => {
                 ':hover': {
                     boxShadow: 10,
                 },
-                height: '48vh',
+                height: '51vh',
                 display: 'flex',
                 flexDirection: 'column'
             }}
