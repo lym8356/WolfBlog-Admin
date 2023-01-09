@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"
 
 interface Props {
-    confirmDialog: {isOpen: boolean, title: string, onConfirm: () => void;};
+    confirmDialog: { isOpen: boolean, title: string, onConfirm: () => void; };
     setConfirmDialog: React.Dispatch<React.SetStateAction<{
         isOpen: boolean;
         title: string;
@@ -22,8 +22,30 @@ export const CustomDeleteDialog: React.FC<Props> = ({
                 {`Are you sure to delete this ${confirmDialog.title} ?`}
             </DialogContent>
             <DialogActions>
-                <Button onClick={confirmDialog.onConfirm}>OK</Button>
-                <Button onClick={() => setConfirmDialog({...confirmDialog, isOpen: false})}>Cancel</Button>
+                <Button onClick={confirmDialog.onConfirm}
+                    sx={{
+                        color: 'secondary.main',
+                        backgroundColor: 'primary.main',
+                        ':hover': {
+                            color: 'primary.main',
+                            backgroundColor: 'secondary.light',
+                        },
+                    }}
+                >
+                    OK
+                </Button>
+                <Button onClick={() => setConfirmDialog({ ...confirmDialog, isOpen: false })}
+                    sx={{
+                        color: 'secondary.main',
+                        backgroundColor: 'primary.main',
+                        ':hover': {
+                            color: 'primary.main',
+                            backgroundColor: 'secondary.light',
+                        },
+                    }}
+                >
+                    Cancel
+                </Button>
             </DialogActions>
         </Dialog>
     )

@@ -19,6 +19,8 @@ import Albums from "./pages/Admin/Albums";
 import { fetchAlbumsAsync } from "./redux/slices/albumSlice";
 import { MainLayout } from "./pages/Layout/MainLayout";
 import AlbumDetails from "./pages/Admin/Albums/Details";
+import { Projects } from "./pages/Admin/Projects";
+import { fetchProjectsAsync } from "./redux/slices/projectSlice";
 
 function App() {
 
@@ -46,6 +48,7 @@ function App() {
       await dispatch(fetchTagsAsync());
       await dispatch(fetchArticlesAsync());
       await dispatch(fetchAlbumsAsync());
+      await dispatch(fetchProjectsAsync());
     } catch (error) {
       console.log(error);
     }
@@ -71,6 +74,7 @@ function App() {
           <Route path="/admin/articles/:id" element={<ArticleDetails />} />
           <Route path="/admin/albums" element={<Albums />} />
           <Route path="/admin/albums/:id" element={<AlbumDetails />} />
+          <Route path="/admin/projects" element={<Projects />} />
         </Route>
         <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login /> } />
       </Routes>

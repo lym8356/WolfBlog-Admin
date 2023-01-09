@@ -162,7 +162,7 @@ const Albums: React.FC = () => {
                                 />
                                 <CustomTextfield
                                     name="description"
-                                    label="description"
+                                    label="Description"
                                     fullWidth
                                     sx={{
                                         margin: ".5vw 0"

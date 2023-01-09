@@ -4,6 +4,7 @@ import { Album, AlbumFormValues } from "../models/album";
 import { Article, ArticleFormValues } from "../models/article";
 import { Category, CategoryFormValues } from "../models/category";
 import { Image } from "../models/image";
+import { Project, ProjectFormValues } from "../models/project";
 import { Tag, TagFormValues } from "../models/tag";
 import { User, UserFormValues } from "../models/user";
 
@@ -117,13 +118,21 @@ const Albums = {
     deleteImage: (albumId: number, imageId: string) => requests.del<Album>(`/album/${albumId}/images/${imageId}`)
 }
 
+const Projects = {
+    list: () => requests.get<Project[]>('/project'),
+    create: (project: ProjectFormValues) => requests.post<Project>('/project', project),
+    update: (project: ProjectFormValues) => requests.put<Project>(`/project/${project.id}`, project),
+    delete: (id: number) => requests.del(`/project/${id}`)
+}
+
 
 const agent = {
     Account,
     Categories,
     Tags,
     Articles,
-    Albums
+    Albums,
+    Projects
 }
 
 export default agent;
