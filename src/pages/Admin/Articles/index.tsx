@@ -255,6 +255,8 @@ const Articles: React.FC = () => {
     return (
         <>
             <Grid container item
+                marginTop={1}
+                marginRight={1}
                 sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -336,7 +338,7 @@ const Articles: React.FC = () => {
                     <Button
                         size="large"
                         sx={{
-                            width: '80%',
+                            width: '100%',
                             color: 'secondary.main',
                             backgroundColor: 'primary.main',
                             ':hover': {

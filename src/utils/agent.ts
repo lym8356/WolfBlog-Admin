@@ -5,6 +5,7 @@ import { Article, ArticleFormValues } from "../models/article";
 import { Category, CategoryFormValues } from "../models/category";
 import { Image } from "../models/image";
 import { Project, ProjectFormValues } from "../models/project";
+import { SiteLog, SiteLogFormValues } from "../models/siteLog";
 import { Tag, TagFormValues } from "../models/tag";
 import { User, UserFormValues } from "../models/user";
 
@@ -125,6 +126,13 @@ const Projects = {
     delete: (id: number) => requests.del(`/project/${id}`)
 }
 
+const SiteLogs = {
+    list: () => requests.get<SiteLog[]>('/sitelog'),
+    create: (siteLog: SiteLogFormValues) => requests.post<SiteLog>('/sitelog', siteLog),
+    update: (siteLog: SiteLogFormValues) => requests.put<SiteLog>(`/sitelog/${siteLog.id}`, siteLog),
+    delete: (id: number) => requests.del(`/sitelog/${id}`)
+}
+
 
 const agent = {
     Account,
@@ -132,7 +140,8 @@ const agent = {
     Tags,
     Articles,
     Albums,
-    Projects
+    Projects,
+    SiteLogs
 }
 
 export default agent;

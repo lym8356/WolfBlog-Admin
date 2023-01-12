@@ -6,7 +6,6 @@ import PrivateRoute from "./utils/PrivateRoute";
 import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch, useSelector } from "./redux/hooks";
 import { fetchCurrentUser } from "./redux/slices/accountSlice";
-import 'react-toastify/dist/ReactToastify.css';
 import LoadingComponent from "./pages/Layout/LoadingComponent";
 import Articles from "./pages/Admin/Articles";
 import { Home } from "./pages/Admin/Home";
@@ -21,6 +20,8 @@ import { MainLayout } from "./pages/Layout/MainLayout";
 import AlbumDetails from "./pages/Admin/Albums/Details";
 import { Projects } from "./pages/Admin/Projects";
 import { fetchProjectsAsync } from "./redux/slices/projectSlice";
+import { SiteLogs } from "./pages/Admin/SiteLogs";
+import { fetchSiteLogsAsync } from "./redux/slices/siteLogSlice";
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
       await dispatch(fetchArticlesAsync());
       await dispatch(fetchAlbumsAsync());
       await dispatch(fetchProjectsAsync());
+      await dispatch(fetchSiteLogsAsync());
     } catch (error) {
       console.log(error);
     }
@@ -75,6 +77,7 @@ function App() {
           <Route path="/admin/albums" element={<Albums />} />
           <Route path="/admin/albums/:id" element={<AlbumDetails />} />
           <Route path="/admin/projects" element={<Projects />} />
+          <Route path="/admin/siteLogs" element={<SiteLogs />} />
         </Route>
         <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login /> } />
       </Routes>

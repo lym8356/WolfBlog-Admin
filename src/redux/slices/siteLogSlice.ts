@@ -1,25 +1,26 @@
 import { createAsyncThunk, createEntityAdapter, createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { Project } from "../../models/project";
+import { SiteLog } from "../../models/siteLog";
 import agent from "../../utils/agent";
 import { RootState } from "../store";
 
-interface ProjectState {
+
+interface SiteLogState {
     error: string | null;
     loading: boolean;
 }
 
-const initialState: ProjectState = {
+const initialState: SiteLogState = {
     error: null,
     loading: true
 }
 
-const projectAdapter = createEntityAdapter<Project>();
+const siteLogAdapter = createEntityAdapter<SiteLog>();
 
-export const fetchProjectsAsync = createAsyncThunk(
-    'project/fetchProjectsAsync',
+export const fetchSiteLogsAsync = createAsyncThunk(
+    'siteLog/fetchSiteLogsAsync',
     async (_, thunkAPI) => {
         try {
-            const response = await agent.Projects.list();
+            const response = await agent.SiteLogs.list();
             return response;
         } catch (error: any) {
             return thunkAPI.rejectWithValue({ error: error.data });
@@ -27,35 +28,35 @@ export const fetchProjectsAsync = createAsyncThunk(
     }
 )
 
-export const projectSlice = createSlice({
-    name: 'project',
-    initialState: projectAdapter.getInitialState<ProjectState>({
+export const siteLogSlice = createSlice({
+    name: 'siteLog',
+    initialState: siteLogAdapter.getInitialState<SiteLogState>({
         loading: true,
         error: null
     }),
     reducers: {
-        setProject: (state, action) => {
-            projectAdapter.upsertOne(state, action.payload);
+        setSiteLog: (state, action) => {
+            siteLogAdapter.upsertOne(state, action.payload);
             state.loading = false;
         },
-        removeProject: (state, action) => {
-            projectAdapter.removeOne(state, action.payload);
+        removeSiteLog: (state, action) => {
+            siteLogAdapter.removeOne(state, action.payload);
             state.loading = false;
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchProjectsAsync.fulfilled, (state, action) => {
-            projectAdapter.setAll(state, action.payload);
+        builder.addCase(fetchSiteLogsAsync.fulfilled, (state, action) => {
+            siteLogAdapter.setAll(state, action.payload);
             state.loading = false;
             state.error = null;
         });
         builder.addMatcher(isAnyOf(
-            fetchProjectsAsync.pending,
+            fetchSiteLogsAsync.pending,
         ), (state, action) => {
             state.loading = true;
         });
         builder.addMatcher(isAnyOf(
-            fetchProjectsAsync.rejected,
+            fetchSiteLogsAsync.rejected,
         ), (state, action) => {
             state.error = action.payload as string;
             state.loading = false;
@@ -65,5 +66,5 @@ export const projectSlice = createSlice({
     }
 })
 
-export const projectSelectors = projectAdapter.getSelectors((state: RootState) => state.project);
-export const { setProject, removeProject } = projectSlice.actions;
+export const siteLogSelectors = siteLogAdapter.getSelectors((state: RootState) => state.siteLog);
+export const { setSiteLog, removeSiteLog } = siteLogSlice.actions;

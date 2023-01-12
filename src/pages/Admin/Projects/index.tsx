@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "../../../redux/hooks";
 import { projectSelectors, removeProject, setProject } from "../../../redux/slices/projectSlice";
 import * as Yup from "yup";
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconButton, Link, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconButton, Link, Typography } from "@mui/material";
 import { NoData } from "../../../components/NoData";
 import { Form, Formik } from "formik";
 import CustomTextfield from "../../../components/FormsUI/CustomTextfield";
@@ -18,7 +17,6 @@ import { CustomDeleteDialog } from "../../../components/CustomDeleteDialog";
 export const Projects: React.FC = () => {
 
     const projects = useSelector(projectSelectors.selectAll);
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // dialog related
@@ -40,7 +38,7 @@ export const Projects: React.FC = () => {
     const validationSchema = Yup.object({
         title: Yup.string().required('The project title is required.').max(20, "The project title cannot exceed 20 characters"),
         description: Yup.string().required('The project description is required.').max(50, "The project description cannot exceed 50 characters"),
-        link: Yup.string().required('The album description is required.').max(50, "The album description cannot exceed 50 characters")
+        link: Yup.string().required('The project description is required.').max(50, "The project description cannot exceed 50 characters")
     });
 
     function handleProjectClick(id: number) {
