@@ -3,6 +3,7 @@ import { accountSlice } from "./slices/accountSlice";
 import { albumSlice } from "./slices/albumSlice";
 import { articleSlice } from "./slices/articleSlice";
 import { categorySlice } from "./slices/categorySlice";
+import { commentSlice } from "./slices/commentSlice";
 import { projectSlice } from "./slices/projectSlice";
 import { siteLogSlice } from "./slices/siteLogSlice";
 import { tagSlice } from "./slices/tagSlice";
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     article: articleSlice.reducer,
     album: albumSlice.reducer,
     project: projectSlice.reducer,
-    siteLog: siteLogSlice.reducer
+    siteLog: siteLogSlice.reducer,
+    comment: commentSlice.reducer
 });
 
 

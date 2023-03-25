@@ -22,6 +22,8 @@ import { Projects } from "./pages/Admin/Projects";
 import { fetchProjectsAsync } from "./redux/slices/projectSlice";
 import { SiteLogs } from "./pages/Admin/SiteLogs";
 import { fetchSiteLogsAsync } from "./redux/slices/siteLogSlice";
+import { fetchCommentsAsync } from "./redux/slices/commentSlice";
+import Comments from "./pages/Admin/Comments";
 
 function App() {
 
@@ -51,6 +53,7 @@ function App() {
       await dispatch(fetchAlbumsAsync());
       await dispatch(fetchProjectsAsync());
       await dispatch(fetchSiteLogsAsync());
+      await dispatch(fetchCommentsAsync());
     } catch (error) {
       console.log(error);
     }
@@ -78,6 +81,7 @@ function App() {
           <Route path="/admin/albums/:id" element={<AlbumDetails />} />
           <Route path="/admin/projects" element={<Projects />} />
           <Route path="/admin/siteLogs" element={<SiteLogs />} />
+          <Route path="/admin/comments" element={<Comments />} />
         </Route>
         <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login /> } />
       </Routes>

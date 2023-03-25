@@ -6,6 +6,7 @@ import { Category, CategoryFormValues } from "../models/category";
 import { Image } from "../models/image";
 import { Project, ProjectFormValues } from "../models/project";
 import { SiteLog, SiteLogFormValues } from "../models/siteLog";
+import { Comment } from "../models/comment";
 import { Tag, TagFormValues } from "../models/tag";
 import { User, UserFormValues } from "../models/user";
 
@@ -133,6 +134,11 @@ const SiteLogs = {
     delete: (id: number) => requests.del(`/sitelog/${id}`)
 }
 
+const Comments = {
+    list: () => requests.get<Comment[]>('/comment'),
+    delete: (id: string) => requests.del(`/comment/${id}`)
+}
+
 
 const agent = {
     Account,
@@ -141,7 +147,8 @@ const agent = {
     Articles,
     Albums,
     Projects,
-    SiteLogs
+    SiteLogs,
+    Comments
 }
 
 export default agent;

@@ -54,7 +54,8 @@ export const articleSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchArticlesAsync.fulfilled, (state, action) => {
             // state.articles = action.payload;
-            articlesAdapter.setAll(state, action.payload);
+            // filtering draft, better solution?
+            articlesAdapter.setAll(state, action.payload.filter(a => a.isDraft == false));
             state.loading = false;
             state.error = null;
         });

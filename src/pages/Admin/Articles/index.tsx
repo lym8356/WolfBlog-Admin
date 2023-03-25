@@ -32,7 +32,7 @@ const Articles: React.FC = () => {
 
     let articles = useSelector(articleSelectors.selectAll);
     // filter drafts, use custom selector ?
-    articles = articles.filter(a => a.isDraft == false);
+    // articles = articles.filter(a => a.isDraft == false);
     const { tags } = useSelector(state => state.tag);
     const { categories } = useSelector(state => state.category);
 
