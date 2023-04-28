@@ -24,6 +24,9 @@ import { SiteLogs } from "./pages/Admin/SiteLogs";
 import { fetchSiteLogsAsync } from "./redux/slices/siteLogSlice";
 import { fetchCommentsAsync } from "./redux/slices/commentSlice";
 import Comments from "./pages/Admin/Comments";
+import { fetchAboutPageAsync } from "./redux/slices/aboutPageSlice";
+import AboutPages from "./pages/Admin/AboutPages";
+import { AboutDetails } from "./pages/Admin/AboutPages/Details";
 
 function App() {
 
@@ -46,14 +49,17 @@ function App() {
 
   const initApp = useCallback(async () => {
     try {
-      await dispatch(fetchCurrentUser());
-      await dispatch(fetchCategoriesAsync());
-      await dispatch(fetchTagsAsync());
-      await dispatch(fetchArticlesAsync());
-      await dispatch(fetchAlbumsAsync());
-      await dispatch(fetchProjectsAsync());
-      await dispatch(fetchSiteLogsAsync());
-      await dispatch(fetchCommentsAsync());
+      await Promise.all([
+        dispatch(fetchCurrentUser()),
+        dispatch(fetchCategoriesAsync()),
+        dispatch(fetchTagsAsync()),
+        dispatch(fetchArticlesAsync()),
+        dispatch(fetchAlbumsAsync()),
+        dispatch(fetchProjectsAsync()),
+        dispatch(fetchSiteLogsAsync()),
+        dispatch(fetchCommentsAsync()),
+        dispatch(fetchAboutPageAsync())
+      ]);
     } catch (error) {
       console.log(error);
     }
@@ -69,7 +75,6 @@ function App() {
     <ThemeProvider theme={theme}>
       <ToastContainer position="bottom-right" hideProgressBar autoClose={4000} />
       <CssBaseline />
-      <MainLayout>
       <Routes>
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/" element={<Home />} />
@@ -82,10 +87,11 @@ function App() {
           <Route path="/admin/projects" element={<Projects />} />
           <Route path="/admin/siteLogs" element={<SiteLogs />} />
           <Route path="/admin/comments" element={<Comments />} />
+          <Route path="/admin/about" element={<AboutPages />} />
+          <Route path="/admin/about/:id" element={<AboutDetails />} />
         </Route>
-        <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login /> } />
+        <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login />} />
       </Routes>
-      </MainLayout>
     </ThemeProvider>
   )
 }

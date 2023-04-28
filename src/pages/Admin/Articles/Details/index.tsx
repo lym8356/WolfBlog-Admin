@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useSelector } from "../../../../redux/hooks";
 import { articleSelectors, setArticle } from "../../../../redux/slices/articleSlice";
-import LoadingComponent from "../../../Layout/LoadingComponent";
 import { Grid, InputLabel, TextField, Typography } from "@mui/material";
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -27,7 +26,6 @@ export const ArticleDetails: React.FC = () => {
     const article = useSelector(state => articleSelectors.selectById(state, id as string));
     const { categories } = useSelector(state => state.category);
     const { tags } = useSelector(state => state.tag);
-    const { loading } = useSelector(state => state.article);
     const [articleFormValues, setArticleFormValues] = useState<ArticleFormValues>(new ArticleFormValues());
     // to display article content
     const [content, setContent] = useState('');
@@ -44,7 +42,8 @@ export const ArticleDetails: React.FC = () => {
             setIsDraft(article.isDraft);
             setArticleFormValues(new ArticleFormValues(article));
         }
-    }, [dispatch, article])
+        
+    }, [dispatch, article, id])
 
     const validationSchema = Yup.object({
         title: Yup.string().required('The article title is required.'),
@@ -104,19 +103,19 @@ export const ArticleDetails: React.FC = () => {
     }
     if (id && !article) return <NotFound />
 
-    if (loading) return <LoadingComponent />
-
     return (
         <>
             <Formik
                 initialValues={articleFormValues}
                 enableReinitialize
                 validationSchema={validationSchema}
+                validateOnBlur={false}
+                validateOnChange={false}
                 onSubmit={isDraft ? (values) => { handleDraftSubmit(values) }
                     : (values) => { handleArticleSubmit(values) }}
             >
                 {({ handleSubmit, setFieldValue, isSubmitting }) => (
-                    <Form autoComplete="false" style={{width: "100%"}} onSubmit={handleSubmit}>
+                    <Form autoComplete="false" style={{ width: "100%" }} onSubmit={handleSubmit}>
                         <Grid container item
                             sx={{
                                 marginTop: '1vh',

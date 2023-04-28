@@ -115,37 +115,40 @@ const Comments: React.FC = () => {
             <Grid container item
                 marginTop={1}
             >
-                <DataGrid
-                    autoHeight
-                    rows={comments}
-                    columns={columns}
-                    pageSize={pageSize}
-                    rowsPerPageOptions={[5, 10, 20]}
-                    onPageSizeChange={(newPageSize) => { setPageSize(newPageSize) }}
-                    disableColumnMenu
-                    disableSelectionOnClick
-                    getRowHeight={() => 'auto'}
-                    sx={{
-                        '.MuiDataGrid-columnHeaders': {
-                            backgroundColor: 'primary.main',
-                            color: 'secondary.main',
-                            fontSize: '1.2rem'
-                        },
-                        '.MuiDataGrid-sortIcon': {
-                            color: 'secondary.main'
-                        },
-                        '.MuiDataGrid-row': {
-                            fontSize: '1.1rem'
-                        },
-                        '.MuiDataGrid-cell': {
-                            whiteSpace: 'normal',
-                            wordBreak: 'break-word'
-                        },
-                        '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': { py: 1.5 }
-                    }}
-                />
+                <Box sx={{ minHeight: 800, width: "100%" }}>
+                    <DataGrid
+                        // autoHeight
+                        rows={comments}
+                        columns={columns}
+                        pageSize={pageSize}
+                        rowsPerPageOptions={[5, 10, 20]}
+                        onPageSizeChange={(newPageSize) => { setPageSize(newPageSize) }}
+                        disableColumnMenu
+                        disableSelectionOnClick
+                        getRowHeight={() => 'auto'}
+                        sx={{
+                            '.MuiDataGrid-columnHeaders': {
+                                backgroundColor: 'primary.main',
+                                color: 'secondary.main',
+                                fontSize: '1.2rem'
+                            },
+                            '.MuiDataGrid-sortIcon': {
+                                color: 'secondary.main'
+                            },
+                            '.MuiDataGrid-row': {
+                                fontSize: '1.1rem'
+                            },
+                            '.MuiDataGrid-cell': {
+                                whiteSpace: 'normal',
+                                wordBreak: 'break-word'
+                            },
+                            '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': { py: 1.5 }
+                        }}
+                    />
+                </Box>
+
             </Grid>
-            
+
             <CustomDeleteDialog
                 confirmDialog={confirmDialog}
                 setConfirmDialog={setConfirmDialog}

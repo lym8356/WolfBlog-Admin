@@ -13,6 +13,7 @@ import { CustomDeleteDialog } from "../../../components/CustomDeleteDialog";
 import agent from "../../../utils/agent";
 import { toast } from "react-toastify";
 import { LoadingButton } from "@mui/lab";
+import { Link } from "react-router-dom";
 
 // check if tagArray contains everything in searchTagArray
 const checkIfContained = (tagArray: Array<Tag>, searchTagArray: Array<string>) => {
@@ -49,8 +50,8 @@ const Articles: React.FC = () => {
 
     // pass in props to control popup dialog
     const [confirmDialog, setConfirmDialog] = useState({
-        isOpen: false, title: '', 
-        onConfirm: function() {}
+        isOpen: false, title: '',
+        onConfirm: function () { }
     });
     const [target, setTarget] = useState('');
     const [loading, setLoading] = useState(false);
@@ -335,21 +336,22 @@ const Articles: React.FC = () => {
                     </IconButton>
                 </Grid>
                 <Grid item xs={1}>
-                    <Button
-                        size="large"
-                        sx={{
-                            width: '100%',
-                            color: 'secondary.main',
-                            backgroundColor: 'primary.main',
-                            ':hover': {
-                                color: 'primary.main',
-                                backgroundColor: 'secondary.light',
-                            }
-                        }}
-                        href="/admin/articles/createArticle"
-                    >
-                        NEW
-                    </Button>
+                    <Link to="/admin/articles/createArticle">
+                        <Button
+                            size="large"
+                            sx={{
+                                width: '100%',
+                                color: 'secondary.main',
+                                backgroundColor: 'primary.main',
+                                ':hover': {
+                                    color: 'primary.main',
+                                    backgroundColor: 'secondary.light',
+                                }
+                            }}
+                        >
+                            NEW
+                        </Button>
+                    </Link>
                 </Grid>
             </Grid>
             <Grid container item

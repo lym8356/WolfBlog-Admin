@@ -9,6 +9,7 @@ import { SiteLog, SiteLogFormValues } from "../models/siteLog";
 import { Comment } from "../models/comment";
 import { Tag, TagFormValues } from "../models/tag";
 import { User, UserFormValues } from "../models/user";
+import { AboutPage } from "../models/aboutPage";
 
 // directly import store here will create circular import dependency errors
 // use dependency injection
@@ -139,6 +140,11 @@ const Comments = {
     delete: (id: string) => requests.del(`/comment/${id}`)
 }
 
+const Abouts = {
+    list: () => requests.get<AboutPage[]>('/aboutPage'),
+    update: (aboutPage: AboutPage) => requests.put<AboutPage>(`/aboutPage/${aboutPage.id}`, aboutPage)
+}
+
 
 const agent = {
     Account,
@@ -148,7 +154,8 @@ const agent = {
     Albums,
     Projects,
     SiteLogs,
-    Comments
+    Comments,
+    Abouts
 }
 
 export default agent;

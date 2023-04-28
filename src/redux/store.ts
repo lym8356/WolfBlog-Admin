@@ -1,4 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { aboutPageSlice } from "./slices/aboutPageSlice";
 import { accountSlice } from "./slices/accountSlice";
 import { albumSlice } from "./slices/albumSlice";
 import { articleSlice } from "./slices/articleSlice";
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     album: albumSlice.reducer,
     project: projectSlice.reducer,
     siteLog: siteLogSlice.reducer,
-    comment: commentSlice.reducer
+    comment: commentSlice.reducer,
+    aboutPage: aboutPageSlice.reducer
 });
 
 
