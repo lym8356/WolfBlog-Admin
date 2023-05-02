@@ -6,18 +6,18 @@ import { CustomCard } from "../../../components/CustomCard"
 import { CategoryBox } from "../../../components/CategoryBox"
 import { Chart } from "../../../components/Chart"
 import { TagBox } from "../../../components/TagBox"
-import { articleSelectors } from "../../../redux/slices/articleSlice"
+import { selectAllArticles, selectAllDrafts } from "../../../redux/slices/articleSlice"
 import { commentSelectors } from "../../../redux/slices/commentSlice"
 import { albumSelectors } from "../../../redux/slices/albumSlice"
 import { projectSelectors } from "../../../redux/slices/projectSlice"
 
 export const Home: React.FC = () => {
+
     const { user } = useSelector(state => state.account);
     const { categories } = useSelector(state => state.category);
     const { tags } = useSelector(state => state.tag);
-    // const { articles } = useSelector(state => state.article);
-    const articles = useSelector(articleSelectors.selectAll);
-    const drafts = articles?.filter(article => article.isDraft === true);
+    const articles = useSelector(selectAllArticles);
+    const drafts = useSelector(selectAllDrafts);
     const comments = useSelector(commentSelectors.selectAll);
     const albums = useSelector(albumSelectors.selectAll);
     const projects = useSelector(projectSelectors.selectAll);
@@ -54,7 +54,7 @@ export const Home: React.FC = () => {
                 <Grid item xs={3}>
                     <CustomCard title='Albums' count={albums ? albums.length : 0} />
                 </Grid>
-                <Grid item xs={3}>  
+                <Grid item xs={3}>
                     <CustomCard title='Projects' count={projects ? projects.length : 0} />
                 </Grid>
             </Grid>
@@ -65,7 +65,7 @@ export const Home: React.FC = () => {
                 columns={16}
             >
                 <Grid item xs={8}>
-                    <Chart />
+                    <Chart articles={articles} categories={categories!} />
                 </Grid>
                 <Grid item xs={4}>
                     <CategoryBox categories={categories} />

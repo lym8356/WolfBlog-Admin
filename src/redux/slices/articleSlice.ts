@@ -1,4 +1,4 @@
-import { createAsyncThunk, createEntityAdapter, createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { createAsyncThunk, createEntityAdapter, createSelector, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { Article } from "../../models/article";
 import agent from "../../utils/agent";
 import { RootState } from "../store";
@@ -54,8 +54,7 @@ export const articleSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchArticlesAsync.fulfilled, (state, action) => {
             // state.articles = action.payload;
-            // filtering draft, better solution?
-            articlesAdapter.setAll(state, action.payload.filter(a => a.isDraft == false));
+            articlesAdapter.setAll(state, action.payload);
             state.loading = false;
             state.error = null;
         });
@@ -79,7 +78,18 @@ export const articleSlice = createSlice({
             console.log(action.payload);
         });
     }
-})
+});
 
 export const articleSelectors = articlesAdapter.getSelectors((state: RootState) => state.article);
 export const { setArticle, removeArticle } = articleSlice.actions;
+
+export const selectAllArticles = createSelector(
+    [articleSelectors.selectAll],
+    (articles) => articles.filter((article) => !article.isDraft)
+);
+
+export const selectAllDrafts = createSelector(
+    [articleSelectors.selectAll],
+    (articles) => articles.filter((article) => article.isDraft)
+);
+

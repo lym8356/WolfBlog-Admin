@@ -16,3 +16,24 @@ export const isContained = (arr1: Array<string>, arr2: Array<string>) => {
     }
     return true;
 }
+
+function generateRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+
+export const generateRandomColors = (numOfColors: number): string[] => {
+    const colors: string[] = [];
+
+    for (let i = 0; i < numOfColors; i++){
+        colors.push(generateRandomColor());
+    }
+
+    return colors;
+}

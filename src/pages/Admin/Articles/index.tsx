@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { RestartAlt } from "@mui/icons-material";
 import { Article } from "../../../models/article";
 import { useNavigate } from "react-router-dom";
-import { articleSelectors, removeArticle } from "../../../redux/slices/articleSlice";
+import { articleSelectors, removeArticle, selectAllArticles, selectAllDrafts } from "../../../redux/slices/articleSlice";
 import { CustomDeleteDialog } from "../../../components/CustomDeleteDialog";
 import agent from "../../../utils/agent";
 import { toast } from "react-toastify";
@@ -17,23 +17,22 @@ import { Link } from "react-router-dom";
 
 // check if tagArray contains everything in searchTagArray
 const checkIfContained = (tagArray: Array<Tag>, searchTagArray: Array<string>) => {
-    // create a temp array to store only the tag title 
-    const tempArr: string[] = [];
-    // 2n, need a better solution
-    for (let i = 0; i < tagArray.length; i++) {
-        tempArr.push(tagArray[i].title);
-    }
-    for (let i = 0; i < searchTagArray.length; i++) {
-        if (!tempArr.includes(searchTagArray[i])) return false;
-    }
-    return true;
+
+    const tagTitleArray = tagArray.map(tag => tag.title);
+
+    return searchTagArray.every(searchTag => tagTitleArray.includes(searchTag));
 }
 
-const Articles: React.FC = () => {
+interface ArticleProps {
+    type: "published" | "draft";
+}
 
-    let articles = useSelector(articleSelectors.selectAll);
+const Articles: React.FC<ArticleProps> = ({ type }) => {
+
+    const articles = useSelector(selectAllArticles);
+    const drafts = useSelector(selectAllDrafts);
+
     // filter drafts, use custom selector ?
-    // articles = articles.filter(a => a.isDraft == false);
     const { tags } = useSelector(state => state.tag);
     const { categories } = useSelector(state => state.category);
 
@@ -61,26 +60,30 @@ const Articles: React.FC = () => {
         setSearchTag([]);
         const keyword = searchKeyword.current?.value as string;
 
-        if (!keyword) {
-            setArticlesToShow(articles);
-            return;
-        }
-        const newArticlesToShow = articles?.filter(
-            item => item.title.toLowerCase().indexOf(keyword.toLowerCase()) !== -1
-        );
-        setArticlesToShow(newArticlesToShow);
+        const sourceArray = type === "published" ? articles : drafts;
+        const filteredArray = !keyword
+            ? sourceArray
+            : sourceArray.filter((item) =>
+                item.title.toLowerCase().includes(keyword.toLowerCase())
+            );
+
+        setArticlesToShow(filteredArray);
+
     }
 
     const searchByCategory = (event: SelectChangeEvent<typeof searchCategory>) => {
         searchKeyword.current!.value = '';
         setSearchTag([]);
         const { target: { value } } = event;
+        setSearchCategory(value);
+
         if (!value) {
-            setArticlesToShow(articles);
+            setArticlesToShow(type === "published" ? articles : drafts);
             return;
         }
-        const newArticlesToShow = articles?.filter(item => item.category.title === value);
-        setSearchCategory(value);
+
+        const articlesToFilter = type === "published" ? articles : drafts;
+        const newArticlesToShow = articlesToFilter?.filter(item => item.category.title === value);
         setArticlesToShow(newArticlesToShow);
     }
 
@@ -92,29 +95,23 @@ const Articles: React.FC = () => {
             typeof value === 'string' ? value.split(',') : value
         )
         if (value.length === 0) {
-            setArticlesToShow(articles);
+            setArticlesToShow(type === "published" ? articles : drafts);
             return;
         }
-        // this logic needs to be optimized for peformance
-        const articlesByTag = [];
-        const articlesLength = articles?.length;
-        if (articlesLength) {
-            for (let i = 0; i < articlesLength; i++) {
-                if (checkIfContained(articles[i].articleTags, value as string[])) {
-                    articlesByTag.push(articles[i]);
-                }
-            }
-            setArticlesToShow(articlesByTag);
-        } else {
-            return;
-        }
+        const source = type === "published" ? articles : drafts;
+
+        // Filter articles/drafts by tags
+        const articlesByTag = source?.filter(article =>
+            checkIfContained(article.articleTags, value as string[])
+        );
+        setArticlesToShow(articlesByTag);
     }
 
     const resetFilters = () => {
         searchKeyword.current!.value = '';
         setSearchCategory("");
         setSearchTag([]);
-        setArticlesToShow(articles);
+        setArticlesToShow(type === "published" ? articles : drafts);
     }
 
     const onDelete = (id: string) => {
@@ -137,8 +134,15 @@ const Articles: React.FC = () => {
 
     // rerender component after delete, better solution ??
     useEffect(() => {
-        setArticlesToShow(articles);
-    }, [articles]);
+        if (type === "published") {
+            setArticlesToShow(articles);
+        } else if (type === "draft") {
+            setArticlesToShow(drafts);
+        }
+        searchKeyword.current!.value = '';
+        setSearchCategory("");
+        setSearchTag([]);
+    }, [type]);
 
     const buttonGroups = (params: any) => {
         return (
@@ -336,7 +340,7 @@ const Articles: React.FC = () => {
                     </IconButton>
                 </Grid>
                 <Grid item xs={1}>
-                    <Link to="/admin/articles/createArticle">
+                    {type === "published" ? <Link to="/admin/articles/createArticle">
                         <Button
                             size="large"
                             sx={{
@@ -351,7 +355,7 @@ const Articles: React.FC = () => {
                         >
                             NEW
                         </Button>
-                    </Link>
+                    </Link> : <></>}
                 </Grid>
             </Grid>
             <Grid container item

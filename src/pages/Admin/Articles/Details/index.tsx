@@ -9,7 +9,7 @@ import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import CustomTextfield from "../../../../components/FormsUI/CustomTextfield";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import * as Yup from 'yup';
 import moment from "moment";
 import { Article, ArticleFormValues } from "../../../../models/article";
@@ -42,7 +42,7 @@ export const ArticleDetails: React.FC = () => {
             setIsDraft(article.isDraft);
             setArticleFormValues(new ArticleFormValues(article));
         }
-        
+
     }, [dispatch, article, id])
 
     const validationSchema = Yup.object({
@@ -52,7 +52,11 @@ export const ArticleDetails: React.FC = () => {
         content: Yup.string().required('The article content must not be empty')
     })
 
-    async function handleDraftSubmit(articleFormValues: ArticleFormValues) {
+    async function handleDraftSubmit(
+        articleFormValues: ArticleFormValues,
+        formikHelpers: FormikHelpers<ArticleFormValues>
+    ) {
+        const { setSubmitting } = formikHelpers;
         try {
             let response: Article;
             if (isSave) {
@@ -68,10 +72,16 @@ export const ArticleDetails: React.FC = () => {
         } catch (error) {
             console.log(error);
             toast.error("Error performing action");
+        } finally {
+            setSubmitting(false);
         }
     }
 
-    async function handleArticleSubmit(articleFormValues: ArticleFormValues) {
+    async function handleArticleSubmit(
+        articleFormValues: ArticleFormValues,
+        formikHelpers: FormikHelpers<ArticleFormValues>
+    ) {
+        const { setSubmitting } = formikHelpers;
         try {
             let response: Article;
             if (isSave) {
@@ -99,6 +109,8 @@ export const ArticleDetails: React.FC = () => {
         } catch (error) {
             console.log(error);
             toast.error("Error performing action");
+        } finally {
+            setSubmitting(false);
         }
     }
     if (id && !article) return <NotFound />
@@ -111,10 +123,10 @@ export const ArticleDetails: React.FC = () => {
                 validationSchema={validationSchema}
                 validateOnBlur={false}
                 validateOnChange={false}
-                onSubmit={isDraft ? (values) => { handleDraftSubmit(values) }
-                    : (values) => { handleArticleSubmit(values) }}
+                onSubmit={isDraft ? (values, formikHelpers) => { handleDraftSubmit(values, formikHelpers) }
+                    : (values, formikHelpers) => { handleArticleSubmit(values, formikHelpers) }}
             >
-                {({ handleSubmit, setFieldValue, isSubmitting }) => (
+                {({ handleSubmit, setFieldValue, isSubmitting, dirty }) => (
                     <Form autoComplete="false" style={{ width: "100%" }} onSubmit={handleSubmit}>
                         <Grid container item
                             sx={{
@@ -163,7 +175,7 @@ export const ArticleDetails: React.FC = () => {
                                     size="large"
                                     variant="contained"
                                     type="submit"
-                                    disabled={isSubmitting}
+                                    disabled={!dirty || isSubmitting}
                                     onClick={() => setIsSave(false)}
                                     sx={{
                                         backgroundColor: 'primary.main',
@@ -184,7 +196,7 @@ export const ArticleDetails: React.FC = () => {
                                     size="large"
                                     variant="contained"
                                     type="submit"
-                                    disabled={isSubmitting}
+                                    disabled={!dirty || isSubmitting}
                                     onClick={() => setIsSave(true)}
                                     sx={{
                                         backgroundColor: 'primary.main',

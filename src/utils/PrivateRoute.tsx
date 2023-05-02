@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { MainLayout } from "../pages/Layout/MainLayout";
 import { useSelector } from "../redux/hooks";
 

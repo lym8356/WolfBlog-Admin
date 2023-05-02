@@ -16,7 +16,6 @@ import { fetchArticlesAsync } from "./redux/slices/articleSlice";
 import { ArticleDetails } from "./pages/Admin/Articles/Details";
 import Albums from "./pages/Admin/Albums";
 import { fetchAlbumsAsync } from "./redux/slices/albumSlice";
-import { MainLayout } from "./pages/Layout/MainLayout";
 import AlbumDetails from "./pages/Admin/Albums/Details";
 import { Projects } from "./pages/Admin/Projects";
 import { fetchProjectsAsync } from "./redux/slices/projectSlice";
@@ -27,6 +26,7 @@ import Comments from "./pages/Admin/Comments";
 import { fetchAboutPageAsync } from "./redux/slices/aboutPageSlice";
 import AboutPages from "./pages/Admin/AboutPages";
 import { AboutDetails } from "./pages/Admin/AboutPages/Details";
+import AdminRoute from "./utils/AdminRoute";
 
 function App() {
 
@@ -79,16 +79,27 @@ function App() {
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<Home />} />
-          <Route path="/admin/articles" element={<Articles />} />
-          <Route path="/admin/articles/createArticle" element={<ArticleDetails />} />
-          <Route path="/admin/articles/:id" element={<ArticleDetails />} />
+          <Route path="/admin/articles" element={<Articles type="published" />} />
+          {/* <Route path="/admin/articles/createArticle" element={<ArticleDetails />} /> */}
+          <Route path="/admin/articles/createArticle" element={<AdminRoute />}>
+            <Route path="/admin/articles/createArticle" element={<ArticleDetails />} />
+          </Route>
+          {/* <Route path="/admin/articles/:id" element={<ArticleDetails />} /> */}
+          <Route path="/admin/articles/:id" element={<AdminRoute />}>
+            <Route path="/admin/articles/:id" element={<ArticleDetails />} />
+          </Route>
           <Route path="/admin/albums" element={<Albums />} />
-          <Route path="/admin/albums/:id" element={<AlbumDetails />} />
+          <Route path="/admin/albums/:id" element={<AdminRoute />}>
+            <Route path="/admin/albums/:id" element={<AlbumDetails />} />
+          </Route>
           <Route path="/admin/projects" element={<Projects />} />
           <Route path="/admin/siteLogs" element={<SiteLogs />} />
           <Route path="/admin/comments" element={<Comments />} />
           <Route path="/admin/about" element={<AboutPages />} />
-          <Route path="/admin/about/:id" element={<AboutDetails />} />
+          <Route path="/admin/about/:id" element={<AdminRoute />}>
+            <Route path="/admin/about/:id" element={<AboutDetails />} />
+          </Route>
+          <Route path="/admin/drafts" element={<Articles type="draft" />} />
         </Route>
         <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login />} />
       </Routes>
