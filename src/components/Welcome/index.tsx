@@ -15,7 +15,10 @@ export const Welcome: React.FC<Props> = ({ user }) => {
     useEffect(() => {
         if (user?.roles?.includes("Admin")) {
             setName(user.displayName);
-            setThumbnail('./assets/user.png')
+            setThumbnail('/assets/admin.png')
+        } else {
+            setName("Guest");
+            setThumbnail('/assets/user.png')
         }
     }, [])
     useEffect(() => {
@@ -31,9 +34,10 @@ export const Welcome: React.FC<Props> = ({ user }) => {
     }, [])
     return (
         <Card
-            sx={{ 
+            sx={{
                 display: 'flex',
-                height: '15vh',
+                // height: '15vh',
+                height: '140px',
                 ':hover': {
                     boxShadow: 10
                 }

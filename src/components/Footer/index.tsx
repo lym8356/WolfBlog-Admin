@@ -2,14 +2,16 @@ import { Link, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 
 
-export const Footer : React.FC = () => {
+export const Footer: React.FC = () => {
     return (
-        <Box component="footer" sx={{ 
-                bgcolor: 'primary.main', 
-                width: '100%', 
-                bottom: 0, 
+        <Box component="footer"
+            sx={{
+                bgcolor: 'primary.main',
+                width: '100%',
+                bottom: 0,
                 position: 'fixed',
-                height: "5vh",
+                // height: "5vh",
+                height: "50px",
                 marginLeft: 0,
                 display: 'flex',
                 flexDirection: 'column',

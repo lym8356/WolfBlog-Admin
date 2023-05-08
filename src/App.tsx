@@ -27,6 +27,7 @@ import { fetchAboutPageAsync } from "./redux/slices/aboutPageSlice";
 import AboutPages from "./pages/Admin/AboutPages";
 import { AboutDetails } from "./pages/Admin/AboutPages/Details";
 import AdminRoute from "./utils/AdminRoute";
+import { NotFound } from "./components/NotFound";
 
 function App() {
 
@@ -100,6 +101,7 @@ function App() {
             <Route path="/admin/about/:id" element={<AboutDetails />} />
           </Route>
           <Route path="/admin/drafts" element={<Articles type="draft" />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login />} />
       </Routes>

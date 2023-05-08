@@ -74,7 +74,8 @@ export const CategoryBox: React.FC<Props> = ({ categories }) => {
                 ':hover': {
                     boxShadow: 10,
                 },
-                height: '51vh',
+                // height: '51vh',
+                height: '480px',
                 display: 'flex',
                 flexDirection: 'column'
             }}
@@ -99,7 +100,8 @@ export const CategoryBox: React.FC<Props> = ({ categories }) => {
                     >
                         <TextField variant="outlined" size="small"
                             sx={{
-                                width: '14vw'
+                                // width: '14vw'
+                                width: '250px'
                             }}
                             inputRef={formValues}
                         />
@@ -119,8 +121,10 @@ export const CategoryBox: React.FC<Props> = ({ categories }) => {
                     </Box>
                     <TableContainer
                         sx={{
-                            maxHeight: '35vh',
-                            marginTop: '2vh'
+                            // maxHeight: '35vh',
+                            maxHeight: '450px',
+                            // marginTop: '2vh'
+                            marginTop: '10px'
                         }}
                     >
                         <Table size="small">

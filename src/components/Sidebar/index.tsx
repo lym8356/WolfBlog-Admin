@@ -1,7 +1,7 @@
 import { Article, Feed, Home, Image, Info, Message, PendingActions, Work } from "@mui/icons-material"
 import { Divider, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
 import { Box } from "@mui/system";
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom";
 
 const sidebarItems = [
     {
@@ -63,16 +63,30 @@ export const Sidebar: React.FC = () => {
         <Drawer
             sx={{
                 '& .MuiDrawer-paper': {
-                    width: "13.5vw",
+                    width: "240px",
+                    // width: "13.5vw",
                     backgroundColor: '#404040'
                 }
             }}
             variant="permanent"
             anchor="left"
         >
-            <Toolbar>
-                <Box sx={{ marginLeft: 5 }}>
-                    <Typography variant="h6" color="gold" >
+            <Toolbar
+                sx={{
+                    height: "100px"
+                }}
+            >
+                <Box 
+                    component="img"
+                    src="/assets/logo.png"
+                    sx={{
+                        maxHeight: "80px",
+                        maxWidth: "80px"
+                    }}
+                />
+                <Box sx={{ marginLeft: 3 }}>
+                    
+                    <Typography variant="h5" color="gold" >
                         WolfyBlog
                     </Typography>
                 </Box>

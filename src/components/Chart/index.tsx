@@ -52,18 +52,20 @@ export const Chart: React.FC<Props> = ({ articles, categories }) => {
                 ':hover': {
                     boxShadow: 10
                 },
-                height: '460px'
+                height: '480px'
             }}
             elevation={4}
         >
             <CardHeader title="Article Category Overview" />
             <CardContent
                 sx={{
-                    maxHeight: '40vh',
+                    // maxHeight: '40vh',
+                    maxHeight: '430px',
+                    width: '100%',
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'center',
-                    marginBottom: '1.3vh'
+                    // marginBottom: '1.3vh'
                 }}
             >
                 <Pie data={data}
@@ -72,7 +74,7 @@ export const Chart: React.FC<Props> = ({ articles, categories }) => {
                         plugins: {
                             legend: {
                                 labels: {
-                                    font: { size: 14 }
+                                    font: { size: 16 }
                                 }
                             },
                             tooltip: {

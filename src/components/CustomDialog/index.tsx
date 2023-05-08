@@ -98,6 +98,7 @@ export const CustomDialog: React.FC<Props> = ({
             dispatch(editTagAsync(newTagData));
         }
         handleDialogClose();
+       
     }
 
     const handleCancelClick = () => {

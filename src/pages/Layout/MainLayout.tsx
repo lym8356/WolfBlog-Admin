@@ -16,8 +16,10 @@ export const MainLayout: React.FC<Props> = () => {
             <Grid container item
                 marginTop={1}
                 marginRight={1}
-                marginBottom="6vh"
-                marginLeft="14vw"
+                // marginBottom="6vh"
+                marginBottom="10px"
+                // marginLeft="14vw"
+                marginLeft="250px"
             >
                 <Outlet />
             </Grid>

@@ -11,7 +11,8 @@ export const AccountInfo: React.FC<Props> = ({ user }) => {
         <Card
             sx={{ 
                 display: 'flex',
-                height: '15vh',
+                // height: '15vh',
+                height: '140px',
                 ':hover': {
                     boxShadow: 10
                 }
