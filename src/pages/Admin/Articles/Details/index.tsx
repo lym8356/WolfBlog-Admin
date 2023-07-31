@@ -211,7 +211,7 @@ export const ArticleDetails: React.FC = () => {
                                 </LoadingButton>
                             </Grid>
                         </Grid>
-                        <Grid container item marginTop={3}>
+                        <Grid container item marginTop={3} maxWidth="85vw">
                             <Grid item xs={6}
                                 sx={{
                                     height: '75vh',
@@ -222,6 +222,7 @@ export const ArticleDetails: React.FC = () => {
                                 <CustomTextfield
                                     fullWidth
                                     name="content"
+                                    rows={30}
                                     multiline
                                     variant="outlined"
                                     onChange={(e) => {
@@ -229,6 +230,11 @@ export const ArticleDetails: React.FC = () => {
                                         setContent(e.target.value);
                                     }}
                                     sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        minHeight: '100%',
+                                        maxHeight: 'fit-content',
+                                        overflow: 'auto',
                                         width: '100%',
                                         backgroundColor: 'secondary.light',
                                         '& fieldset': { border: 'none' }

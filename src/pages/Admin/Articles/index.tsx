@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { RestartAlt } from "@mui/icons-material";
 import { Article } from "../../../models/article";
 import { useNavigate } from "react-router-dom";
-import { articleSelectors, removeArticle, selectAllArticles, selectAllDrafts } from "../../../redux/slices/articleSlice";
+import { removeArticle, selectAllArticles, selectAllDrafts } from "../../../redux/slices/articleSlice";
 import { CustomDeleteDialog } from "../../../components/CustomDeleteDialog";
 import agent from "../../../utils/agent";
 import { toast } from "react-toastify";
@@ -45,7 +45,7 @@ const Articles: React.FC<ArticleProps> = ({ type }) => {
     const [searchCategory, setSearchCategory] = useState<string>("");
     const [searchTag, setSearchTag] = useState<string[]>([]);
     // setting up page size 
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(15);
 
     // pass in props to control popup dialog
     const [confirmDialog, setConfirmDialog] = useState({
@@ -141,8 +141,8 @@ const Articles: React.FC<ArticleProps> = ({ type }) => {
         }
         searchKeyword.current!.value = '';
         setSearchCategory("");
-        setSearchTag([]);
-    }, [type]);
+        setSearchTag([]);   
+    }, [type, articles, drafts]);
 
     const buttonGroups = (params: any) => {
         return (
@@ -223,16 +223,17 @@ const Articles: React.FC<ArticleProps> = ({ type }) => {
             minWidth: 300, headerAlign: 'center', align: 'center',
             renderCell: (params) => (
                 <div style={{
-                    whiteSpace: 'normal',
-                    wordWrap: 'break-word',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center'
                 }}>
                     {params.value.map((tag: Tag, index: number) => (
                         <Typography key={index}
                             sx={{
                                 width: 'fit-content',
-                                margin: ' 0 .5vw',
+                                margin: ' 1px .5vw',
                                 padding: '0 10px',
                                 backgroundColor: 'primary.main',
                                 color: 'secondary.main'
@@ -372,7 +373,7 @@ const Articles: React.FC<ArticleProps> = ({ type }) => {
                     rows={data}
                     columns={columns}
                     pageSize={pageSize}
-                    rowsPerPageOptions={[5, 10, 20]}
+                    rowsPerPageOptions={[5, 15, 20]}
                     onPageSizeChange={(newPageSize) => { setPageSize(newPageSize) }}
                     disableColumnMenu
                     disableSelectionOnClick
