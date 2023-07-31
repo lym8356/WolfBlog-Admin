@@ -10,6 +10,7 @@ import { selectAllArticles, selectAllDrafts } from "../../../redux/slices/articl
 import { commentSelectors } from "../../../redux/slices/commentSlice"
 import { albumSelectors } from "../../../redux/slices/albumSlice"
 import { projectSelectors } from "../../../redux/slices/projectSlice"
+import { NotificationCard } from "../../../components/NotificationCard"
 
 export const Home: React.FC = () => {
 
@@ -29,11 +30,14 @@ export const Home: React.FC = () => {
                 marginRight={.5}
                 spacing={2}
             >
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                     <Welcome user={user} />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                     <AccountInfo user={user} />
+                </Grid>
+                <Grid item xs={4}>
+                   <NotificationCard />
                 </Grid>
             </Grid>
             <Grid container item

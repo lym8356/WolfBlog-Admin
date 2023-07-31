@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "../../../redux/hooks";
+import { useAppDispatch, useSelector } from "../../../redux/hooks";
 import { projectSelectors, removeProject, setProject } from "../../../redux/slices/projectSlice";
 import * as Yup from "yup";
 import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconButton, Link, Typography } from "@mui/material";
@@ -17,7 +16,7 @@ import { CustomDeleteDialog } from "../../../components/CustomDeleteDialog";
 export const Projects: React.FC = () => {
 
     const projects = useSelector(projectSelectors.selectAll);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     // dialog related
     const [dialogOpen, setDialogOpen] = useState(false);

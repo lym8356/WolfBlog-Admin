@@ -213,15 +213,21 @@ const Articles: React.FC<ArticleProps> = ({ type }) => {
         {
             field: 'category', headerName: 'Category', sortable: false,
             flex: 0.5, minWidth: 200, headerAlign: 'center', align: 'center',
-            renderCell: (params) => <Chip label={params.value} variant="outlined"
-                sx={{ color: 'primary.main', fontSize: '1rem', borderColor: 'primary.main' }}
-            />
+            renderCell: (params) =>
+                <Chip label={params.value} variant="outlined"
+                    sx={{ color: 'primary.main', fontSize: '1rem', borderColor: 'primary.main' }}
+                />
         },
         {
             field: 'tags', headerName: 'Tags', sortable: false, flex: 1,
             minWidth: 300, headerAlign: 'center', align: 'center',
             renderCell: (params) => (
-                <>
+                <div style={{
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                }}>
                     {params.value.map((tag: Tag, index: number) => (
                         <Typography key={index}
                             sx={{
@@ -235,7 +241,7 @@ const Articles: React.FC<ArticleProps> = ({ type }) => {
                             {tag.title}
                         </Typography>
                     ))}
-                </>
+                </div>
             )
         },
         {

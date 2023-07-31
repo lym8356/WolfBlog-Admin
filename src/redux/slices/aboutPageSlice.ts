@@ -64,3 +64,9 @@ export const aboutPageSlice = createSlice({
 
 export const aboutPageSelectors = aboutPageAdapter.getSelectors((state: RootState) => state.aboutPage);
 export const { setAboutPage } = aboutPageSlice.actions;
+
+
+export const selectNotificationPage = (state: RootState): AboutPage | undefined => {
+    const pages: AboutPage[] = aboutPageSelectors.selectAll(state);
+    return pages.find((page) => page.isNotification === true);
+}
