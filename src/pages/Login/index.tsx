@@ -32,7 +32,7 @@ function Login() {
             username: guestUsername,
             password: guestPassword
         }));
-        navigate("/admin");
+        navigate("/");
     }
 
     const handleAdminLogin = async (values: UserFormValues) => {
@@ -46,7 +46,7 @@ function Login() {
             username: values.username,
             password: values.password
         } ));
-        navigate("/admin");
+        navigate("/");
     }
 
     return (

@@ -76,7 +76,7 @@ export const AboutDetails: React.FC = () => {
                                             color: 'primary.main'
                                         }
                                     }}
-                                    onClick={() => navigate('/admin/about/')}
+                                    onClick={() => navigate('/about/')}
                                 >
                                     Back
                                 </Button>
@@ -143,7 +143,7 @@ export const AboutDetails: React.FC = () => {
                                     rehypePlugins={[rehypeRaw]}
                                     children={content}
                                     components={{
-                                        code({ node, inline, className, children, ...props }) {
+                                        code({ node, inline, className, style, children, ...props }) {
                                             const match = /language-(\w+)/.exec(className || '')
                                             return !inline && match ? (
                                                 <SyntaxHighlighter

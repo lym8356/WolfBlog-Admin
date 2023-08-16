@@ -163,7 +163,7 @@ const Articles: React.FC<ArticleProps> = ({ type }) => {
                             backgroundColor: 'secondary.light',
                         }
                     }}
-                    onClick={() => navigate(`/admin/articles/${params.id}`)}
+                    onClick={() => navigate(`/articles/${params.id}`)}
                 >
                     Edit
                 </Button>
@@ -347,7 +347,7 @@ const Articles: React.FC<ArticleProps> = ({ type }) => {
                     </IconButton>
                 </Grid>
                 <Grid item xs={1}>
-                    {type === "published" ? <Link to="/admin/articles/createArticle">
+                    {type === "published" ? <Link to="/articles/createArticle">
                         <Button
                             size="large"
                             sx={{

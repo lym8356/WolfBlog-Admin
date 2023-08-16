@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { User } from "../../models/user";
 import agent from "../../utils/agent";

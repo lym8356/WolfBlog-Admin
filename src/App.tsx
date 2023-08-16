@@ -80,30 +80,28 @@ function App() {
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<Home />} />
-          <Route path="/admin/articles" element={<Articles type="published" />} />
-          {/* <Route path="/admin/articles/createArticle" element={<ArticleDetails />} /> */}
-          <Route path="/admin/articles/createArticle" element={<AdminRoute />}>
-            <Route path="/admin/articles/createArticle" element={<ArticleDetails />} />
+          <Route path="/articles" element={<Articles type="published" />} />
+          <Route path="/articles/createArticle" element={<AdminRoute />}>
+            <Route path="/articles/createArticle" element={<ArticleDetails />} />
           </Route>
-          {/* <Route path="/admin/articles/:id" element={<ArticleDetails />} /> */}
-          <Route path="/admin/articles/:id" element={<AdminRoute />}>
-            <Route path="/admin/articles/:id" element={<ArticleDetails />} />
+          <Route path="/articles/:id" element={<AdminRoute />}>
+            <Route path="/articles/:id" element={<ArticleDetails />} />
           </Route>
-          <Route path="/admin/albums" element={<Albums />} />
-          <Route path="/admin/albums/:id" element={<AdminRoute />}>
-            <Route path="/admin/albums/:id" element={<AlbumDetails />} />
+          <Route path="/albums" element={<Albums />} />
+          <Route path="/albums/:id" element={<AdminRoute />}>
+            <Route path="/albums/:id" element={<AlbumDetails />} />
           </Route>
-          <Route path="/admin/projects" element={<Projects />} />
-          <Route path="/admin/siteLogs" element={<SiteLogs />} />
-          <Route path="/admin/comments" element={<Comments />} />
-          <Route path="/admin/about" element={<AboutPages />} />
-          <Route path="/admin/about/:id" element={<AdminRoute />}>
-            <Route path="/admin/about/:id" element={<AboutDetails />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/siteLogs" element={<SiteLogs />} />
+          <Route path="/comments" element={<Comments />} />
+          <Route path="/about" element={<AboutPages />} />
+          <Route path="/about/:id" element={<AdminRoute />}>
+            <Route path="/about/:id" element={<AboutDetails />} />
           </Route>
-          <Route path="/admin/drafts" element={<Articles type="draft" />} />
+          <Route path="/drafts" element={<Articles type="draft" />} />
           <Route path="*" element={<NotFound />} />
         </Route>
-        <Route path="/login" element={user ? <Navigate to="/admin" /> : <Login />} />
+        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
       </Routes>
     </ThemeProvider>
   )

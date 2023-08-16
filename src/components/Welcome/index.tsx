@@ -11,14 +11,14 @@ export const Welcome: React.FC<Props> = ({ user }) => {
     const [timeText, setTimeText] = useState('');
     const [date, setDate] = useState('');
     const [name, setName] = useState('Guest');
-    const [thumbnail, setThumbnail] = useState('./assets/user.png');
+    const [thumbnail, setThumbnail] = useState(process.env.PUBLIC_URL + "/assets/user.png");
     useEffect(() => {
         if (user?.roles?.includes("Admin")) {
             setName(user.displayName);
-            setThumbnail('/assets/admin.png')
+            setThumbnail(process.env.PUBLIC_URL + "/assets/admin.png")
         } else {
             setName("Guest");
-            setThumbnail('/assets/user.png')
+            setThumbnail(process.env.PUBLIC_URL + "/assets/user.png")
         }
     }, [])
     useEffect(() => {

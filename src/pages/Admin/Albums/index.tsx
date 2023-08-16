@@ -110,7 +110,7 @@ const Albums: React.FC = () => {
                                     height: "100%",
                                     overflow: "auto"
                                 }}
-                                onClick={() => { navigate(`/admin/albums/${album.id}`) }}
+                                onClick={() => { navigate(`/albums/${album.id}`) }}
                             >
                                 <CardMedia
                                     component="img"

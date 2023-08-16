@@ -25,7 +25,8 @@ const sleep = (delay: number) => {
     })
 }
 
-axios.defaults.baseURL = "http://localhost:21777/api";
+// axios.defaults.baseURL = "http://localhost:21777/api";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -37,8 +38,10 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(async response => {
-    await sleep(500);
-    console.log('fetching from server...')
+    if (process.env.NODE_ENV === 'development') {
+        await sleep(500);
+        console.log('fetching from server...')
+    }
     return response;
 }, (error: AxiosError) => {
     // handle errors here

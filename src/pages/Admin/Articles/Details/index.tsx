@@ -101,7 +101,7 @@ export const ArticleDetails: React.FC = () => {
                 } else {
                     response = await agent.Articles.create(articleFormValues);
                     toast.success("Article created");
-                    navigate(`/admin/articles/${response.id}`);
+                    navigate(`/articles/${response.id}`);
                 }
             }
             dispatch(setArticle(response));
@@ -215,14 +215,14 @@ export const ArticleDetails: React.FC = () => {
                             <Grid item xs={6}
                                 sx={{
                                     height: '75vh',
-                                    overflow: 'auto'
+                                    overflow: 'auto',
+                                    width: '100%'
                                 }}
                             >
                                 <InputLabel><Typography variant="h5">Content</Typography></InputLabel>
                                 <CustomTextfield
                                     fullWidth
                                     name="content"
-                                    rows={30}
                                     multiline
                                     variant="outlined"
                                     onChange={(e) => {
@@ -254,7 +254,7 @@ export const ArticleDetails: React.FC = () => {
                                     rehypePlugins={[rehypeRaw]}
                                     children={content}
                                     components={{
-                                        code({ node, inline, className, children, ...props }) {
+                                        code({ node, inline, className, style, children, ...props }) {
                                             const match = /language-(\w+)/.exec(className || '')
                                             return !inline && match ? (
                                                 <SyntaxHighlighter

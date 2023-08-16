@@ -8,49 +8,49 @@ const sidebarItems = [
         id: 0,
         icon: <Home fontSize="large" color="secondary" />,
         label: 'Home',
-        route: '/admin',
+        route: '/',
     },
     {
         id: 1,
         icon: <Article fontSize="large" color="secondary" />,
         label: 'Article',
-        route: '/admin/articles',
+        route: '/articles',
     },
     {
         id: 2,
         icon: <Image fontSize="large" color="secondary" />,
         label: 'Album',
-        route: '/admin/albums',
+        route: '/albums',
     },
     {
         id: 3,
         icon: <Work fontSize="large" color="secondary" />,
         label: 'Project',
-        route: '/admin/projects',
+        route: '/projects',
     },
     {
         id: 4,
         icon: <PendingActions fontSize="large" color="secondary" />,
         label: 'Site Log',
-        route: '/admin/sitelogs',
+        route: '/sitelogs',
     },
     {
         id: 5,
         icon: <Message fontSize="large" color="secondary" />,
         label: 'Comment',
-        route: '/admin/comments',
+        route: '/comments',
     },
     {
         id: 6,
         icon: <Info fontSize="large" color="secondary" />,
         label: 'About',
-        route: '/admin/about',
+        route: '/about',
     },
     {
         id: 7,
         icon: <Feed fontSize="large" color="secondary" />,
         label: 'Draft',
-        route: '/admin/drafts',
+        route: '/drafts',
     },
 ]
 
@@ -78,7 +78,7 @@ export const Sidebar: React.FC = () => {
             >
                 <Box 
                     component="img"
-                    src="/assets/logo.png"
+                    src={process.env.PUBLIC_URL + "/assets/logo.png"}
                     sx={{
                         maxHeight: "80px",
                         maxWidth: "80px"

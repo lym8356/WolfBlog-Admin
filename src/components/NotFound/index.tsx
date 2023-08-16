@@ -25,7 +25,7 @@ export const NotFound: React.FC = () => {
                 <Typography variant="h4">
                     The page you're looking for doesn't exist
                 </Typography>
-                <Link to="/admin" >
+                <Link to="/" >
                     <Button variant="contained"
                         sx={{
                             color: 'secondary.main',
@@ -41,7 +41,7 @@ export const NotFound: React.FC = () => {
                 </Link>
                 <Box
                     component="img"
-                    src="/assets/notfound.png"
+                    src={process.env.PUBLIC_URL + "/assets/notfound.png"}
                     sx={{
                         width: "350px",
                         height: "350px"

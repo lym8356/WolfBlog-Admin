@@ -1,4 +1,3 @@
-import { Article } from "../models/article";
 
 /**
  * check if arr1 contains all elements in arr2

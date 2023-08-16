@@ -73,7 +73,7 @@ const AlbumDetails: React.FC = () => {
             .then(() => {
                 dispatch(removeAlbum(id));
                 toast.success("Album deleted");
-                navigate("/admin/albums");
+                navigate("/albums");
             })
             .catch((error: any) => {
                 console.log(error);
