@@ -26,7 +26,10 @@ const sleep = (delay: number) => {
 }
 
 // axios.defaults.baseURL = "http://localhost:21777/api";
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+// axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+// for injecting directly in ecs task def
+axios.defaults.baseURL = (window as any).REACT_APP_API_URL;
+console.log((window as any).REACT_APP_API_URL);
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 

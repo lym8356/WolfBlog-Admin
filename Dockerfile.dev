@@ -1,20 +1,17 @@
-# Start with a base image containing Node.js runtime
-FROM node:alpine
-
-# Set the working directory in the Docker image
+# Build stage
+FROM node:18-alpine AS build-stage
 WORKDIR /app
-
-## copy over package.json
-COPY package.json .
-
-# Install any necessary dependencies
+COPY package*.json ./
 RUN npm install
-
-# Copy everything from the current directory to the PWD(Present Working Directory) inside the container
 COPY . .
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=${REACT_APP_API_URL}
+ENV PUBLIC_URL="/"
+RUN npm run build
 
-# Expose port 3000 to the outside
+# Production stage
+FROM nginx:alpine AS production-stage
+COPY default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage /app/build /usr/share/nginx/html
 EXPOSE 3000
-
-# Run the application
-CMD ["npm", "start"]
+CMD ["nginx", "-g", "daemon off;"]
