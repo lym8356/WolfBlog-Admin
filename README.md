@@ -53,7 +53,6 @@ This project serves as the admin portal for managing content on WolfyBlog. It's 
   <img src="./readme/about_edit.png" alt="About Edit" width="45%">
 </div>
 
-
 # Setup
 ## Getting Started with Create React App
 
